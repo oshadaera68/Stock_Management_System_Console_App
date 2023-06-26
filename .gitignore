@@ -27,3 +27,8 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### codes
+src/App.java
+src/Demo.java
+src/Demo2.java

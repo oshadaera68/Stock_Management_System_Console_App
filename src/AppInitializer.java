@@ -8,6 +8,7 @@ public class AppInitializer {
     // main method
     public static void main(String[] args) {
         logInConsole();
+        mainMenuInput();
     }
 
     //login to the system.
@@ -30,9 +31,10 @@ public class AppInitializer {
         if (userName.equals("eraboy") && password.equals("1234")) {
             mainMenuConsole();
             clearWorkingConsole();
-        }else{
+        } else {
 
         }
+
     }
 
     // clearing console.
@@ -55,6 +57,80 @@ public class AppInitializer {
 
     // main menu.
     private static void mainMenuConsole() {
+        System.out.print("\n");
+        System.out.println("+-------------------------------------------------------------------------------------------+");
+        System.out.print("|");
+        System.out.print("\t\t\t\t\t\t\t\tWELCOME TO IJSE STOCK MANAGEMENT SYSTEM");
+        System.out.println("\t\t\t\t\t\t|");
+        System.out.println("+-------------------------------------------------------------------------------------------+");
 
+        System.out.print("[1] Change the Credentials\t\t\t\t");
+        System.out.println("[2] Supplier Manage");
+        System.out.print("[3] Stock Manage\t\t\t\t\t\t");
+        System.out.println("[4] Log Out");
+        System.out.print("[5] Exit the system\t\t\t\t");
+        System.out.println();
+    }
+
+    // input a number
+    private static void mainMenuInput() {
+        Scanner inputNum = new Scanner(System.in);
+        System.out.print("Enter an option to continue > ");
+        int opNum = inputNum.nextInt();
+        clearWorkingConsole();
+        switch (opNum) {
+            case 1:
+                changeTheCredentials();
+                break;
+            case 2:
+                supplierManageMenu();
+                break;
+            case 3:
+                stockManageMenu();
+                break;
+            case 4:
+                logOut();
+                break;
+            case 5:
+                exitTheSystem();
+                break;
+            default:
+                System.out.println("Invalid Number...Try again!!!");
+        }
+    }
+
+    private static void exitTheSystem() {
+
+    }
+
+    private static void logOut() {
+
+    }
+
+    private static void stockManageMenu() {
+        System.out.print("\n");
+        System.out.println("+-------------------------------------------------------------------------------------------+");
+        System.out.print("|");
+        System.out.print("\t\t\t\t\t\t\t\t\t\t   STOCK MANAGE");
+        System.out.println("\t\t\t\t\t\t|");
+        System.out.println("+-------------------------------------------------------------------------------------------+");
+    }
+
+    private static void supplierManageMenu() {
+        System.out.print("\n");
+        System.out.println("+-------------------------------------------------------------------------------------------+");
+        System.out.print("|");
+        System.out.print("\t\t\t\t\t\t\t\tSUPPLIER MANAGE");
+        System.out.println("\t\t\t\t\t\t\t\t\t\t\t|");
+        System.out.println("+-------------------------------------------------------------------------------------------+");
+    }
+
+    private static void changeTheCredentials() {
+        System.out.print("\n");
+        System.out.println("+-------------------------------------------------------------------------------------------+");
+        System.out.print("|");
+        System.out.print("\t\t\t\t\t\t\t\tCHANGE THE CREDENTIALS");
+        System.out.println("\t\t\t\t\t\t|");
+        System.out.println("+-------------------------------------------------------------------------------------------+");
     }
 }
