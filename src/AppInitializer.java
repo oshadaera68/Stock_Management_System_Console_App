@@ -72,7 +72,7 @@ public class AppInitializer {
         System.out.println();
     }
 
-    // input a number
+    // input a number of main menu
     private static void mainMenuInput() {
         Scanner inputNum = new Scanner(System.in);
         System.out.print("Enter an option to continue > ");
@@ -95,27 +95,135 @@ public class AppInitializer {
                 exitTheSystem();
                 break;
             default:
-                System.out.println("Invalid Number...Try again!!!");
+                System.out.println("Invalid Number...Please try again!!!");
+                clearWorkingConsole();
+                mainMenuConsole();
+                mainMenuInput();
         }
     }
 
+    // exit the system
     private static void exitTheSystem() {
+        Scanner exitNum = new Scanner(System.in);
 
+        System.out.print("Did You exit the System?[Y/N] >");
+        String yesNo = exitNum.next();
+        switch (yesNo) {
+            case "Y":
+                System.exit(0);
+                break;
+            case "N":
+                clearWorkingConsole();
+                mainMenuConsole();
+                mainMenuInput();
+                break;
+            default:
+                System.out.println("Invalid Value.. Try Again..!");
+                break;
+        }
     }
 
+    // log out in the system
     private static void logOut() {
 
     }
 
+    //stock manage menu
     private static void stockManageMenu() {
         System.out.print("\n");
         System.out.println("+-------------------------------------------------------------------------------------------+");
         System.out.print("|");
         System.out.print("\t\t\t\t\t\t\t\t\t\t   STOCK MANAGE");
-        System.out.println("\t\t\t\t\t\t|");
+        System.out.println("\t\t\t\t\t\t\t\t\t\t|");
         System.out.println("+-------------------------------------------------------------------------------------------+");
+
+        System.out.print("[1] Manage Item Categories \t\t\t\t");
+        System.out.println("[2] Add Item");
+        System.out.print("[3] Get Items Supplier Wise\t\t\t\t");
+        System.out.println("[4] View Items");
+        System.out.print("[5] Rank Items Per Unit Price\t\t");
+        System.out.print("[6] Home Page");
+        System.out.println();
+        clearWorkingConsole();
+        inputStockManageMenu();
     }
 
+    // user inputs in stock manage menu
+    private static void inputStockManageMenu() {
+        Scanner inputNum = new Scanner(System.in);
+        System.out.print("Enter an option to continue > ");
+        int opNum = inputNum.nextInt();
+        clearWorkingConsole();
+        switch (opNum) {
+            case 1:
+                manageItemCategories();
+                break;
+            case 2:
+                addItem();
+                break;
+            case 3:
+                getItemsSupplierWise();
+                break;
+            case 4:
+                viewItems();
+                break;
+            case 5:
+                rankItemsPerUnitPrice();
+                break;
+            case 6:
+                homePage();
+                break;
+            default:
+                System.out.println("Invalid Number...Please try again!!!");
+                clearWorkingConsole();
+                mainMenuConsole();
+                mainMenuInput();
+        }
+    }
+
+    private static void rankItemsPerUnitPrice() {
+    }
+
+    // navigating home page
+    private static void homePage() {
+        Scanner exitNum = new Scanner(System.in);
+
+        System.out.print("Did You want to go to the Home Page?[Y/N] >");
+        String yesNo = exitNum.next();
+        switch (yesNo) {
+            case "Y":
+                clearWorkingConsole();
+                mainMenuConsole();
+                mainMenuInput();
+                break;
+            case "N":
+                clearWorkingConsole();
+                stockManageMenu();
+                inputStockManageMenu();
+                break;
+            default:
+                System.out.println("Invalid Value.. Try Again..!");
+                break;
+        }
+
+        clearWorkingConsole();
+        mainMenuConsole();
+        mainMenuInput();
+    }
+
+    private static void viewItems() {
+    }
+
+    private static void getItemsSupplierWise() {
+    }
+
+    private static void addItem() {
+    }
+
+    private static void manageItemCategories() {
+    }
+
+    //supplier manage menu
     private static void supplierManageMenu() {
         System.out.print("\n");
         System.out.println("+-------------------------------------------------------------------------------------------+");
@@ -125,6 +233,7 @@ public class AppInitializer {
         System.out.println("+-------------------------------------------------------------------------------------------+");
     }
 
+    // change credentials
     private static void changeTheCredentials() {
         System.out.print("\n");
         System.out.println("+-------------------------------------------------------------------------------------------+");
