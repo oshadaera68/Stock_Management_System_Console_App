@@ -315,7 +315,7 @@ public class AppInitializer {
                 updateSupplier(supId, supName);
                 break;
             case 3:
-                deleteSupplier();
+                deleteSupplier(supId,supName);
                 break;
             case 4:
                 viewSupplier();
@@ -346,7 +346,67 @@ public class AppInitializer {
     }
 
     // delete supplier
-    private static void deleteSupplier() {
+    private static void deleteSupplier(String[] supId, String[] supName) {
+        Scanner deleteSupplier = new Scanner(System.in);
+        System.out.print("\n");
+        System.out.println("+-------------------------------------------------------------------------------------------+");
+        System.out.print("|");
+        System.out.print("\t\t\t\t\t\t\t\tDELETE SUPPLIER");
+        System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t|");
+        System.out.println("+-------------------------------------------------------------------------------------------+");
+
+        // main loop
+        L1:for (int i = 0; i < supId.length; i++) {
+            System.out.print("Supplier ID:");
+            String tempSupplierId = deleteSupplier.next();
+
+            //check exists the id before updating.
+            if (!tempSupplierId.equals(supId[i])) {
+                System.out.println("Can't find supplier Id. Try again..");
+                System.out.print("Supplier ID:");
+                deleteSupplier.next();
+            }
+
+            // inside loop
+            for (int j = 0; j < supId.length; j++) {
+                if (tempSupplierId.equals(supId[j])){
+                    for (int k = j; k < supId.length-1; k++) {
+                        supId[k] = supId[k + 1];
+                        supName[k] = supName[k + 1];
+                    }
+                    String[] tempSupId = new String[supId.length-1];
+                    String[] tempSupName = new String[supName.length-1];
+
+                    for (int l = 0; l < tempSupId.length; l++) {
+                        tempSupId[l] = supId[l];
+                        tempSupName[l] = supName[l];
+                    }
+                    supId=tempSupId;
+                    supName=tempSupName;
+                    System.out.print("Deleted Successfully. Do you want to delete another supplier? (Y/N) : ");
+                    char ch = deleteSupplier.next().charAt(0);
+                    switch (ch) {
+                        case 'y':
+                        case 'Y':
+                            clearWorkingConsole();
+                            deleteSupplier(supId, supName);
+                            break;
+                        case 'n':
+                        case 'N':
+                            clearWorkingConsole();
+                            mainMenuConsole();
+                            mainMenuInput();
+                            break;
+                        default:
+                            System.out.println("Invalid Number...Please try again!!!");
+                            clearWorkingConsole();
+                            mainMenuConsole();
+                            mainMenuInput();
+                    }
+                    continue L1;
+                }
+            }
+        }
     }
 
     // update supplier
