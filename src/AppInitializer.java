@@ -354,12 +354,14 @@ public class AppInitializer {
         // validating supplier id for using boolean variable
         boolean validSupplierId = false;
 
-        // while loop
+        // main loop
         while (!validSupplierId) {
             System.out.print("Supplier ID: ");
             String tempSupplierId = searchSupplier.next();
+            // founding the supplier using boolean variable.
             boolean supplierFound = false;
 
+            // inner loop
             for (int i = 0; i < supId.length; i++) {
                 if (tempSupplierId.equals(supId[i])) {
                     System.out.println("Supplier Name: " + supName[i]);
