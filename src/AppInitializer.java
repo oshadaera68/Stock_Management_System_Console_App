@@ -7,8 +7,8 @@ import java.util.Scanner;
 public class AppInitializer {
     /*Static Arrays*/
     // supplier arrays
-    static String[] supplierIds = new String[1000];
-    static String[] supplierNames = new String[supplierIds.length];
+    public static String[] supplierIds = new String[1000];
+    public static String[] supplierNames = new String[supplierIds.length];
 
     // main method
     public static void main(String[] args) {
@@ -19,7 +19,6 @@ public class AppInitializer {
     //login to the system.
     private static void logInConsole() {
         Scanner usernameAndPassword = new Scanner(System.in);
-
         System.out.print("\n");
         System.out.println("+-----------------------------------------------------------------------------------+");
         System.out.print("|");
@@ -38,6 +37,11 @@ public class AppInitializer {
             clearWorkingConsole();
         } else {
             System.out.println("Try Again..Please check the user name or password");
+            System.out.print("User Name:");
+            userName = usernameAndPassword.next();
+
+            System.out.print("Password:");
+            password = usernameAndPassword.next();
         }
     }
 
@@ -109,7 +113,6 @@ public class AppInitializer {
     // exit the system
     private static void exitTheSystem() {
         Scanner exitNum = new Scanner(System.in);
-
         System.out.print("Did You exit the System?[Y/N] >");
         String yesNo = exitNum.next();
         switch (yesNo) {
@@ -199,11 +202,13 @@ public class AppInitializer {
         System.out.print("Did You want to go to the Home Page?[Y/N] >");
         String yesNo = exitNum.next();
         switch (yesNo) {
+            case "y":
             case "Y":
                 clearWorkingConsole();
                 mainMenuConsole();
                 mainMenuInput();
                 break;
+            case "n":
             case "N":
                 clearWorkingConsole();
                 stockManageMenuConsole();
@@ -289,7 +294,7 @@ public class AppInitializer {
         System.out.print("\n");
         System.out.println("+-------------------------------------------------------------------------------------------+");
         System.out.print("|");
-        System.out.print("\t\t\t\t\t\t\t\tSUPPLIER MANAGE");
+        System.out.print("\t\t\t\t\t\t\t\t\tSUPPLIER MANAGE");
         System.out.println("\t\t\t\t\t\t\t\t\t\t\t|");
         System.out.println("+-------------------------------------------------------------------------------------------+");
 
@@ -321,7 +326,7 @@ public class AppInitializer {
                 deleteSupplier(supId, supName);
                 break;
             case 4:
-                viewSupplier();
+                viewSupplier(supId, supName);
                 break;
             case 5:
                 searchSupplier(supId, supName);
@@ -358,7 +363,6 @@ public class AppInitializer {
         while (!validSupplierId) {
             System.out.print("Supplier ID: ");
             String tempSupplierId = searchSupplier.next();
-            // founding the supplier using boolean variable.
             boolean supplierFound = false;
 
             // inner loop
@@ -379,7 +383,6 @@ public class AppInitializer {
 
         System.out.print("Searched Successfully.. Do you want to search for another supplier? [Y/N]: ");
         char ch = searchSupplier.next().charAt(0);
-
         switch (ch) {
             case 'y':
             case 'Y':
@@ -400,7 +403,7 @@ public class AppInitializer {
     }
 
     // view supplier
-    private static void viewSupplier() {
+    private static void viewSupplier(String[] supId, String[] supName) {
         Scanner viewSupplier = new Scanner(System.in);
         System.out.print("\n");
         System.out.println("+-------------------------------------------------------------------------------------------+");
@@ -408,7 +411,41 @@ public class AppInitializer {
         System.out.print("\t\t\t\t\t\t\t\tVIEW SUPPLIER");
         System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t|");
         System.out.println("+-------------------------------------------------------------------------------------------+");
+
+        System.out.println();
+        System.out.println("+----------------------------------+-------------------------------------+");
+        System.out.println("|\t\t\t\tSUPPLIER ID           |\t\t\t\tSUPPLIER NAME           |");
+        System.out.println("+----------------------------------+-------------------------------------+");
+
+        // Display supplier details in tabular format, excluding null values
+        for (int i = 0; i < supId.length; i++) {
+            if (supId[i] != null && supName[i] != null) {
+                System.out.printf("|\t\t\t %-25s|\t\t\t %-25s|\n", supId[i], supName[i]);
+            }
+        }
+
+        System.out.println("+----------------------------------+-------------------------------------+");
+        System.out.println();
+        System.out.print("Do you want to go to the supplier management menu? (Y/N) : ");
+        char ch = viewSupplier.next().charAt(0);
+        switch (ch) {
+            case 'y':
+            case 'Y':
+                clearWorkingConsole();
+                supplierManageMenuConsole();
+                inputSupplierManageMenu(supId, supName);
+                break;
+            case 'n':
+            case 'N':
+                System.out.println("Exiting the program... Thank you!");
+                System.exit(0);
+            default:
+                System.out.println("Invalid option. Please try again..");
+                System.out.print("Do you want to go to the supplier management menu? (Y/N) : ");
+                ch = viewSupplier.next().charAt(0);
+        }
     }
+
 
     // delete supplier
     private static void deleteSupplier(String[] supId, String[] supName) {
@@ -426,7 +463,7 @@ public class AppInitializer {
             System.out.print("Supplier ID:");
             String tempSupplierId = deleteSupplier.next();
 
-            //check exists the id before updating.
+            //check exists the id before deleting.
             if (!tempSupplierId.equals(supId[i])) {
                 System.out.println("Can't find supplier Id. Try again..");
                 System.out.print("Supplier ID:");
@@ -573,7 +610,6 @@ public class AppInitializer {
                 }
             }
         }
-
     }
 
     // store values in the array
