@@ -5,9 +5,6 @@ import java.util.Scanner;
  * version - v1.0
  */
 public class AppInitializer {
-    // user credentials
-    private static final String VALID_USERNAME = "eraboy";
-    private static final String VALID_PASSWORD = "1234";
     /*Static Arrays*/
     //password arrays
     public static String[] passwords = new String[1000];
