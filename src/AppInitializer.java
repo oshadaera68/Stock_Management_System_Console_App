@@ -5,19 +5,20 @@ import java.util.Scanner;
  * version - v1.0
  */
 public class AppInitializer {
+    // user credentials
+    private static final String VALID_USERNAME = "eraboy";
+    private static final String VALID_PASSWORD = "1234";
     /*Static Arrays*/
     //password arrays
     public static String[] passwords = new String[1000];
+
     // supplier arrays
     public static String[] supplierIds = new String[1000];
     public static String[] supplierNames = new String[supplierIds.length];
 
     // Item category Array
-    public static String[] itemCategories = new String[1000];
-
-    // user credentials
-    private static final String VALID_USERNAME = "eraboy";
-    private static final String VALID_PASSWORD = "1234";
+    public static String[] itemCategoriesIds = new String[1000];
+    public static String[] itemCategories = new String[itemCategoriesIds.length];
 
     // main method
     public static void main(String[] args) {
@@ -49,40 +50,6 @@ public class AppInitializer {
             clearWorkingConsole();
             logInConsole();
         }
-        /*Scanner usernameAndPassword = new Scanner(System.in);
-        System.out.print("\n");
-        System.out.println("+-----------------------------------------------------------------------------------+");
-        System.out.print("|");
-        System.out.print("\t\t\t\t\t\t\t\tLOGIN PAGE");
-        System.out.println("\t\t\t\t\t\t	                |");
-        System.out.println("+-----------------------------------------------------------------------------------+");
-
-        System.out.print("User Name: ");
-        String userName = usernameAndPassword.nextLine();
-
-        if (!userName.equals(VALID_USERNAME)) {
-            System.out.println("Invalid username. Please try again.");
-       *//*logInConsole();*//*
-            System.out.print("User Name: ");
-            userName = usernameAndPassword.nextLine();
-            return;
-        }
-
-        System.out.print("Password: ");
-        String password = usernameAndPassword.nextLine();
-
-        if (!password.equals(VALID_PASSWORD)) {
-            System.out.println("Invalid password. Please try again.");
-            System.out.print("Password: ");
-             password = usernameAndPassword.nextLine();
-            *//*logInConsole();*//*
-            return;
-        }
-
-        System.out.println("Login successful!");
-        mainMenuConsole();
-        mainMenuInput();
-        clearWorkingConsole();*/
     }
 
     // clearing console.
@@ -234,6 +201,7 @@ public class AppInitializer {
     }
 
     private static void rankItemsPerUnitPrice() {
+
     }
 
     // navigating home page
@@ -259,7 +227,6 @@ public class AppInitializer {
                 break;
         }
     }
-
 
 
     // view items
@@ -289,24 +256,24 @@ public class AppInitializer {
         System.out.println("[4] Stock Management");
         System.out.println();
         clearWorkingConsole();
-        inputManageItemCategories(itemCategories);
+        inputManageItemCategories(itemCategoriesIds, itemCategories);
     }
 
     // user inputs in manage item categories
-    private static void inputManageItemCategories(String[] itemCategories) {
+    private static void inputManageItemCategories(String[] itemCategoryId, String[] itemCategory) {
         Scanner inputNum = new Scanner(System.in);
         System.out.print("Enter an option to continue > ");
         int opNum = inputNum.nextInt();
         clearWorkingConsole();
         switch (opNum) {
             case 1:
-                addNewItemCategory(itemCategories);
+                addNewItemCategory(itemCategoryId, itemCategory);
                 break;
             case 2:
-                deleteItemCategory(itemCategories);
+                deleteItemCategory(itemCategoryId, itemCategory);
                 break;
             case 3:
-                updateItemCategory();
+                updateItemCategory(itemCategoryId, itemCategory);
                 break;
             case 4:
                 stockManagement();
@@ -322,68 +289,162 @@ public class AppInitializer {
 
     }
 
-    private static void updateItemCategory() {
-    }
-
-    private static void deleteItemCategory(String[] itemCategories ) {
-        Scanner addCategory = new Scanner(System.in);
-        System.out.print("\n");
+    private static void updateItemCategory(String[] itemCategoriesIds, String[] itemCategory) {
+        Scanner updateCategory = new Scanner(System.in);
         System.out.println("+-------------------------------------------------------------------------------------------+");
-        System.out.print("|");
-        System.out.print("\t\t\t\t\t\t\t\tADD ITEM CATEGORY");
-        System.out.println("\t\t\t\t\t\t\t\t\t\t\t|");
-        System.out.println("+-------------------------------------------------------------------------------------------+");
-    }
-
-    private static void addNewItemCategory(String[] itemCategories) {
-        Scanner addCategory = new Scanner(System.in);
-        System.out.print("\n");
-        System.out.println("+-------------------------------------------------------------------------------------------+");
-        System.out.print("|");
-        System.out.print("\t\t\t\t\t\t\t\tADD ITEM CATEGORY");
+        System.out.println("|");
+        System.out.println("\t\t\t\t\t\t\t\tUPDATE ITEM CATEGORY");
         System.out.println("\t\t\t\t\t\t\t\t\t\t\t|");
         System.out.println("+-------------------------------------------------------------------------------------------+");
 
-        System.out.print("Enter the new Item category: ");
-        String newCategory = addCategory.nextLine();
+        for (int i = 0; i < itemCategoriesIds.length; i++) {
+            System.out.print("Enter The Item Category ID:");
+            String tempItemCategoryId = updateCategory.next();
+            char yesNo;
 
-        boolean categoryExists = false;
-        for (String category : itemCategories) {
-            if (newCategory.equalsIgnoreCase(category)) {
-                categoryExists = true;
-                System.out.println("Category already exists. Please try another category!");
-                break;
+            //check exists the id before updating.
+            if (!tempItemCategoryId.equals(itemCategoriesIds[i])) {
+                System.out.println("Can't find item category Id. Try again..");
+                System.out.print("Enter The Item Category ID:");
+                updateCategory.next();
+            }
+
+            // validating the id for updating.
+            for (int j = 0; j < itemCategoriesIds.length; j++) {
+                if (tempItemCategoryId.equals(itemCategoriesIds[j])) {
+                    System.out.println("Item Category Name:" + itemCategory[j]);
+                    System.out.println();
+                    System.out.print("Enter the new Supplier Name:");
+                    String tempItemCategoryName = updateCategory.next();
+                    itemCategory[j] = tempItemCategoryName;
+                    System.out.print("Updated Successfully! Do You want to update another item category? [Y/N] >");
+                    yesNo = updateCategory.next().charAt(0);
+                    switch (yesNo) {
+                        case 'y':
+                        case 'Y':
+                            clearWorkingConsole();
+                            updateItemCategory(itemCategoriesIds, itemCategory);
+                        case 'n':
+                        case 'N':
+                            clearWorkingConsole();
+                            manageItemCategories();
+                            inputManageItemCategories(itemCategoriesIds, itemCategory);
+                            break;
+                        default:
+                            System.out.println("Invalid Value.. Try Again..!");
+                    }
+                }
             }
         }
+    }
 
-        if (!categoryExists) {
-            // Resize the array to accommodate the new category
-            String[] updatedCategories = new String[itemCategories.length + 1];
-            System.arraycopy(itemCategories, 0, updatedCategories, 0, itemCategories.length);
-            updatedCategories[itemCategories.length] = newCategory;
 
-            // Update the reference to the new array
-            itemCategories = updatedCategories;
+    private static void deleteItemCategory(String[] itemCategoriesId, String[] itemCategory) {
+        Scanner deleteCategory = new Scanner(System.in);
+        System.out.print("\n");
+        System.out.println("+-------------------------------------------------------------------------------------------+");
+        System.out.print("|");
+        System.out.print("\t\t\t\t\t\t\t\tDELETE ITEM CATEGORY");
+        System.out.println("\t\t\t\t\t\t\t\t\t\t\t|");
+        System.out.println("+-------------------------------------------------------------------------------------------+");
 
-            System.out.print("Added successfully! Do you want to add another category? [Y/N]:");
-            char choice = addCategory.nextLine().charAt(0);
-            switch (choice) {
-                case 'y':
-                case 'Y':
-                    clearWorkingConsole();
-                    addNewItemCategory(itemCategories);
+        L1:
+        for (int i = 0; i < itemCategoriesId.length; i++) {
+            System.out.print("Enter The Item Category ID:");
+            String tempItemCategoryId = deleteCategory.next();
 
-                case 'n':
-                case 'N':
-                    clearWorkingConsole();
-                    stockManageMenuConsole();
-                    inputStockManageMenu();
+            //check exists the id before deleting.
+            if (!tempItemCategoryId.equals(itemCategoriesId[i])) {
+                System.out.println("Can't find Item Category Id. Try again..");
+                System.out.print("Enter The Item Category ID:");
+                deleteCategory.next();
+            }
 
-                default:
-                    System.out.println("Invalid value. Please try again!");
-                    clearWorkingConsole();
-                    mainMenuConsole();
-                    mainMenuInput();
+            // inside loop
+            for (int j = 0; j < itemCategoriesId.length; j++) {
+                if (tempItemCategoryId.equals(itemCategoriesId[j])) {
+                    for (int k = j; k < itemCategoriesId.length - 1; k++) {
+                        itemCategoriesId[k] = itemCategoriesId[k + 1];
+                        itemCategory[k] = itemCategory[k + 1];
+                    }
+                    String[] tempItemCateId = new String[itemCategoriesId.length - 1];
+                    String[] tempItemCateName = new String[itemCategory.length - 1];
+
+                    for (int l = 0; l < tempItemCateId.length; l++) {
+                        tempItemCateId[l] = itemCategoriesId[l];
+                        tempItemCateName[l] = itemCategory[l];
+                    }
+                    itemCategoriesId = tempItemCateId;
+                    itemCategory = tempItemCateName;
+                    System.out.print("Deleted Successfully. Do you want to delete another supplier? (Y/N) : ");
+                    char ch = deleteCategory.next().charAt(0);
+                    switch (ch) {
+                        case 'y':
+                        case 'Y':
+                            clearWorkingConsole();
+                            deleteItemCategory(itemCategoriesId, itemCategory);
+                            break;
+                        case 'n':
+                        case 'N':
+                            clearWorkingConsole();
+                            inputManageItemCategories(itemCategoriesId, itemCategory);
+                            break;
+                        default:
+                            System.out.println("Invalid Number...Please try again!!!");
+                            clearWorkingConsole();
+                            mainMenuConsole();
+                            mainMenuInput();
+                    }
+                    continue L1;
+                }
+            }
+        }
+    }
+
+
+    private static void addNewItemCategory(String[] itemCategoriesId, String[] itemCategories) {
+        Scanner addCategory = new Scanner(System.in);
+        System.out.print("\n");
+        System.out.println("+-------------------------------------------------------------------------------------------+");
+        System.out.print("|");
+        System.out.print("\t\t\t\t\t\t\t\tADD ITEM CATEGORY");
+        System.out.println("\t\t\t\t\t\t\t\t\t\t\t|");
+        System.out.println("+-------------------------------------------------------------------------------------------+");
+
+        int indexValues = nextIdValues(itemCategoriesId);
+        for (int i = indexValues; i < itemCategoriesId.length; i++) {
+            System.out.print("Item Category ID:");
+            String tempId = addCategory.next();
+
+            boolean itemCategoryIdFounded = false;
+            for (int j = 0; j < itemCategoriesId.length; j++) {
+                if (tempId.equals(itemCategoriesId[j])) {
+                    System.out.println("Already Exists. try another Item category id!");
+                    itemCategoryIdFounded = true;
+                    break;
+                }
+            }
+
+            if (!itemCategoryIdFounded) {
+                itemCategoriesId[i] = tempId;
+                System.out.print("Enter the New Item category:");
+                itemCategories[i] = addCategory.next();
+                System.out.print("Added Successfully! Do You want to add another Item Category? [Y/N] >");
+                char c = addCategory.next().charAt(0);
+                switch (c) {
+                    case 'y':
+                    case 'Y':
+                        clearWorkingConsole();
+                        addNewItemCategory(itemCategoriesId, itemCategories);
+                    case 'n':
+                    case 'N':
+                        clearWorkingConsole();
+                        stockManageMenuConsole();
+                        inputStockManageMenu();
+                        break;
+                    default:
+                        System.out.println("Invalid Value.. Try Again..!");
+                }
             }
         }
     }
