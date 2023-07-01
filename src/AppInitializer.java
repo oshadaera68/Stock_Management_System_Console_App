@@ -20,7 +20,7 @@ public class AppInitializer {
     // main method
     public static void main(String[] args) {
         logInConsole();
-        mainMenuInput();
+//        mainMenuInput(false);
     }
 
     //login to the system.
@@ -29,8 +29,8 @@ public class AppInitializer {
         System.out.print("\n");
         System.out.println("+-----------------------------------------------------------------------------------+");
         System.out.print("|");
-        System.out.print("\t\t\t\t\t\t\t\tLOGIN PAGE");
-        System.out.println("\t\t\t\t\t\t	                |");
+        System.out.print("\t\t\t\t\t\t\t\t\tLOGIN PAGE");
+        System.out.println("\t\t\t\t\t\t\t\t\t\t|");
         System.out.println("+-----------------------------------------------------------------------------------+");
 
         System.out.print("User Name:");
@@ -39,13 +39,28 @@ public class AppInitializer {
         System.out.print("Password:");
         String password = usernameAndPassword.next();
 
-        if (userName.equals("eraboy") && password.equals("1234")) {
+        if (userName.equals("eraboy") && password.equals("1234") || password.length() != passwords.length) {
             mainMenuConsole();
+            mainMenuInput(true);
             clearWorkingConsole();
         } else {
-            System.out.println("Try Again..Please check the user name or password");
-            clearWorkingConsole();
-            logInConsole();
+            boolean validCredentials = false;
+            while (!validCredentials) {
+                if (!userName.equals("eraboy")) {
+                    System.out.println("Invalid User name. Try again!");
+                    System.out.print("User Name:");
+                    userName = usernameAndPassword.next();
+                } else if (!password.equals("1234")) {
+                    System.out.println("Invalid Password. Try again!");
+                    System.out.print("Password:");
+                    password = usernameAndPassword.next();
+                } else {
+                    validCredentials = true;
+                    clearWorkingConsole();
+                    mainMenuConsole();
+                    mainMenuInput(true);
+                }
+            }
         }
     }
 
@@ -71,8 +86,8 @@ public class AppInitializer {
         System.out.print("\n");
         System.out.println("+-------------------------------------------------------------------------------------------+");
         System.out.print("|");
-        System.out.print("\t\t\t\t\t\t\t\tWELCOME TO IJSE STOCK MANAGEMENT SYSTEM");
-        System.out.println("\t\t\t\t\t\t|");
+        System.out.print("\t\t\t\t\t\t\tWELCOME TO IJSE STOCK MANAGEMENT SYSTEM");
+        System.out.println("\t\t\t\t\t\t\t|");
         System.out.println("+-------------------------------------------------------------------------------------------+");
 
         System.out.print("[1] Change the Credentials\t\t\t\t");
@@ -84,7 +99,7 @@ public class AppInitializer {
     }
 
     // input a number of main menu
-    private static void mainMenuInput() {
+    private static void mainMenuInput(boolean isLogOut) {
         Scanner inputNum = new Scanner(System.in);
         System.out.print("Enter an option to continue > ");
         int opNum = inputNum.nextInt();
@@ -109,7 +124,7 @@ public class AppInitializer {
                 System.out.println("Invalid Number...Please try again!!!");
                 clearWorkingConsole();
                 mainMenuConsole();
-                mainMenuInput();
+                mainMenuInput(true);
                 break;
         }
     }
@@ -122,26 +137,29 @@ public class AppInitializer {
         switch (yesNo) {
             case "y":
             case "Y":
+                clearWorkingConsole();
                 System.exit(0);
                 break;
             case "n":
             case "N":
                 clearWorkingConsole();
                 mainMenuConsole();
-                mainMenuInput();
+                mainMenuInput(true);
                 break;
             default:
                 System.out.println("Invalid Value.. Try Again..!");
                 clearWorkingConsole();
                 mainMenuConsole();
-                mainMenuInput();
+                mainMenuInput(true);
                 break;
         }
     }
 
     // log out in the system
-    private static void logOut() {
-
+    private static boolean logOut() {
+        logInConsole();
+        mainMenuInput(true);
+        return false;
     }
 
     //stock manage menu
@@ -193,6 +211,7 @@ public class AppInitializer {
                 System.out.println("Invalid Number...Please try again!!!");
                 clearWorkingConsole();
                 inputStockManageMenu();
+                stockManageMenuConsole();
                 break;
         }
     }
@@ -211,7 +230,7 @@ public class AppInitializer {
             case "Y":
                 clearWorkingConsole();
                 mainMenuConsole();
-                mainMenuInput();
+                mainMenuInput(true);
                 break;
             case "n":
             case "N":
@@ -224,7 +243,6 @@ public class AppInitializer {
                 break;
         }
     }
-
 
     // view items
     private static void viewItems() {
@@ -294,13 +312,13 @@ public class AppInitializer {
         System.out.println("\t\t\t\t\t\t\t\t\t\t\t|");
         System.out.println("+-------------------------------------------------------------------------------------------+");
 
-        for (int i = 0; i < itemCategoriesIds.length; i++) {
+        for (String itemCategoriesId : itemCategoriesIds) {
             System.out.print("Enter The Item Category ID:");
             String tempItemCategoryId = updateCategory.next();
             char yesNo;
 
             //check exists the id before updating.
-            if (!tempItemCategoryId.equals(itemCategoriesIds[i])) {
+            if (!tempItemCategoryId.equals(itemCategoriesId)) {
                 System.out.println("Can't find item category Id. Try again..");
                 System.out.print("Enter The Item Category ID:");
                 updateCategory.next();
@@ -384,13 +402,14 @@ public class AppInitializer {
                         case 'n':
                         case 'N':
                             clearWorkingConsole();
+                            manageItemCategories();
                             inputManageItemCategories(itemCategoriesId, itemCategory);
                             break;
                         default:
                             System.out.println("Invalid Number...Please try again!!!");
                             clearWorkingConsole();
                             mainMenuConsole();
-                            mainMenuInput();
+                            mainMenuInput(false);
                     }
                     continue L1;
                 }
@@ -414,8 +433,8 @@ public class AppInitializer {
             String tempId = addCategory.next();
 
             boolean itemCategoryIdFounded = false;
-            for (int j = 0; j < itemCategoriesId.length; j++) {
-                if (tempId.equals(itemCategoriesId[j])) {
+            for (String s : itemCategoriesId) {
+                if (tempId.equals(s)) {
                     System.out.println("Already Exists. try another Item category id!");
                     itemCategoryIdFounded = true;
                     break;
@@ -555,7 +574,7 @@ public class AppInitializer {
             default:
                 System.out.println("Invalid Value... Please try again!!!");
                 mainMenuConsole();
-                mainMenuInput();
+                mainMenuInput(true);
         }
     }
 
@@ -570,21 +589,20 @@ public class AppInitializer {
         System.out.println("+-------------------------------------------------------------------------------------------+");
 
         System.out.println();
-        System.out.println("+----------------------------------+-------------------------------------+");
-        System.out.println("|\t\t\t\tSUPPLIER ID           |\t\t\t\tSUPPLIER NAME           |");
-        System.out.println("+----------------------------------+-------------------------------------+");
+        System.out.println("+------------------------------------+--------------------------------------+");
+        System.out.println("|\t\t\t\tSUPPLIER ID          |\t\t\t\tSUPPLIER NAME           |");
+        System.out.println("+------------------------------------+--------------------------------------+");
 
-        // Display supplier details in tabular format, excluding null values
         for (int i = 0; i < supId.length; i++) {
             if (supId[i] != null && supName[i] != null) {
                 System.out.printf("|\t\t\t %-25s|\t\t\t %-25s|\n", supId[i], supName[i]);
             }
         }
-
-        System.out.println("+----------------------------------+-------------------------------------+");
+        char ch;
+        System.out.println("+------------------------------------+---------------------------------------");
         System.out.println();
         System.out.print("Do you want to go to the supplier management menu? (Y/N) : ");
-        char ch = viewSupplier.next().charAt(0);
+        ch = viewSupplier.next().charAt(0);
         switch (ch) {
             case 'y':
             case 'Y':
@@ -599,7 +617,7 @@ public class AppInitializer {
             default:
                 System.out.println("Invalid option. Please try again..");
                 System.out.print("Do you want to go to the supplier management menu? (Y/N) : ");
-                ch = viewSupplier.next().charAt(0);
+                viewSupplier.next().charAt(0);
         }
     }
 
@@ -661,7 +679,7 @@ public class AppInitializer {
                             System.out.println("Invalid Number...Please try again!!!");
                             clearWorkingConsole();
                             mainMenuConsole();
-                            mainMenuInput();
+                            mainMenuInput(true);
                     }
                     continue L1;
                 }
@@ -680,13 +698,13 @@ public class AppInitializer {
         System.out.println("+-------------------------------------------------------------------------------------------+");
 
         //main loop
-        for (int i = 0; i < supId.length; i++) {
+        for (String s : supId) {
             System.out.print("Supplier ID:");
             String tempSupplierId = updateSupplier.next();
             char yesNo;
 
             //check exists the id before updating.
-            if (!tempSupplierId.equals(supId[i])) {
+            if (!tempSupplierId.equals(s)) {
                 System.out.println("Can't find supplier Id. Try again..");
                 System.out.print("Supplier ID:");
                 updateSupplier.next();
@@ -737,8 +755,8 @@ public class AppInitializer {
             String tempId = inputSupplier.next();
 
             boolean supIdFounded = false;
-            for (int j = 0; j < supId.length; j++) {
-                if (tempId.equals(supId[j])) {
+            for (String s : supId) {
+                if (tempId.equals(s)) {
                     System.out.println("Already Exists. try another supplier id!");
                     supIdFounded = true;
                     break;
@@ -783,11 +801,45 @@ public class AppInitializer {
 
     // change credentials
     private static void changeTheCredentials() {
+        Scanner changeCredentials = new Scanner(System.in);
         System.out.print("\n");
         System.out.println("+-------------------------------------------------------------------------------------------+");
         System.out.print("|");
-        System.out.print("\t\t\t\t\t\t\t\tCHANGE THE CREDENTIALS");
-        System.out.println("\t\t\t\t\t\t|");
+        System.out.print("\t\t\t\t\t\t\t\t\tCREDENTIAL MANAGE");
+        System.out.println("\t\t\t\t\t\t\t\t\t\t|");
         System.out.println("+-------------------------------------------------------------------------------------------+");
+
+        String username = "";
+        String password = "";
+        boolean validCredentials = true;
+
+        while (!validCredentials) {
+            System.out.print("Please Enter the user name to verify it's you:");
+            username = changeCredentials.next();
+
+            if (!username.equals("eraboy")) {
+                System.out.println("Invalid User name. Try again!");
+                System.out.print("Please Enter the user name to verify it's you: ");
+                username = changeCredentials.next();
+            } else {
+                System.out.println("Hey " + username);
+                System.out.print("Enter your current password: ");
+                password = changeCredentials.next();
+                if (password.equals("1234") || password.length() != passwords.length) {
+                    System.out.print("Enter your new password: ");
+                    String newPassword;
+                    newPassword = changeCredentials.next();
+
+                    password = passwords[newPassword.length()];
+                    System.out.println("Password changed successfully!");
+                    clearWorkingConsole();
+                    logInConsole();
+                } else {
+                    System.out.println("Invalid Password. Try again!");
+                    System.out.print("Enter your current password:");
+                    password = changeCredentials.next();
+                }
+            }
+        }
     }
 }
