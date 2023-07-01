@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -20,7 +21,7 @@ public class AppInitializer {
     // main method
     public static void main(String[] args) {
         logInConsole();
-//        mainMenuInput(false);
+        //mainMenuInput();
     }
 
     //login to the system.
@@ -39,9 +40,9 @@ public class AppInitializer {
         System.out.print("Password:");
         String password = usernameAndPassword.next();
 
-        if (userName.equals("eraboy") && password.equals("1234") || password.length() != passwords.length) {
+        if (userName.equals("eraboy") && !password.equals("1234") || password.length() != passwords.length) {
             mainMenuConsole();
-            mainMenuInput(true);
+            mainMenuInput();
             clearWorkingConsole();
         } else {
             boolean validCredentials = false;
@@ -58,7 +59,7 @@ public class AppInitializer {
                     validCredentials = true;
                     clearWorkingConsole();
                     mainMenuConsole();
-                    mainMenuInput(true);
+                    mainMenuInput();
                 }
             }
         }
@@ -99,7 +100,7 @@ public class AppInitializer {
     }
 
     // input a number of main menu
-    private static void mainMenuInput(boolean isLogOut) {
+    private static void mainMenuInput() {
         Scanner inputNum = new Scanner(System.in);
         System.out.print("Enter an option to continue > ");
         int opNum = inputNum.nextInt();
@@ -115,7 +116,7 @@ public class AppInitializer {
                 stockManageMenuConsole();
                 break;
             case 4:
-                logOut();
+                logOut(true);
                 break;
             case 5:
                 exitTheSystem();
@@ -124,7 +125,7 @@ public class AppInitializer {
                 System.out.println("Invalid Number...Please try again!!!");
                 clearWorkingConsole();
                 mainMenuConsole();
-                mainMenuInput(true);
+                mainMenuInput();
                 break;
         }
     }
@@ -144,21 +145,23 @@ public class AppInitializer {
             case "N":
                 clearWorkingConsole();
                 mainMenuConsole();
-                mainMenuInput(true);
+                mainMenuInput();
                 break;
             default:
                 System.out.println("Invalid Value.. Try Again..!");
                 clearWorkingConsole();
                 mainMenuConsole();
-                mainMenuInput(true);
+                mainMenuInput();
                 break;
         }
     }
 
     // log out in the system
-    private static boolean logOut() {
-        logInConsole();
-        mainMenuInput(true);
+    private static boolean logOut(boolean isLogOut) {
+        if (isLogOut) {
+            logInConsole();
+            mainMenuInput();
+        }
         return false;
     }
 
@@ -167,7 +170,7 @@ public class AppInitializer {
         System.out.print("\n");
         System.out.println("+-------------------------------------------------------------------------------------------+");
         System.out.print("|");
-        System.out.print("\t\t\t\t\t\t\t\t\t\t   STOCK MANAGEMENT");
+        System.out.print("\t\t\t\t\t\t\t\t\t STOCK MANAGEMENT");
         System.out.println("\t\t\t\t\t\t\t\t\t\t|");
         System.out.println("+-------------------------------------------------------------------------------------------+");
 
@@ -230,7 +233,7 @@ public class AppInitializer {
             case "Y":
                 clearWorkingConsole();
                 mainMenuConsole();
-                mainMenuInput(true);
+                mainMenuInput();
                 break;
             case "n":
             case "N":
@@ -262,7 +265,7 @@ public class AppInitializer {
         System.out.println("+-------------------------------------------------------------------------------------------+");
         System.out.print("|");
         System.out.print("\t\t\t\t\t\t\t\tMANAGE ITEM CATEGORY");
-        System.out.println("\t\t\t\t\t\t\t\t\t\t\t|");
+        System.out.println("\t\t\t\t\t\t\t\t\t\t|");
         System.out.println("+-------------------------------------------------------------------------------------------+");
 
         System.out.print("[1] Add New Item Category \t\t\t\t");
@@ -271,40 +274,43 @@ public class AppInitializer {
         System.out.println("[4] Stock Management");
         System.out.println();
         clearWorkingConsole();
-        inputManageItemCategories(itemCategoriesIds, itemCategories);
+        inputManageItemCategories(itemCategories);
     }
 
     // user inputs in manage item categories
-    private static void inputManageItemCategories(String[] itemCategoryId, String[] itemCategory) {
+    private static void inputManageItemCategories(String[] itemCategory) {
         Scanner inputNum = new Scanner(System.in);
         System.out.print("Enter an option to continue > ");
         int opNum = inputNum.nextInt();
         clearWorkingConsole();
         switch (opNum) {
             case 1:
-                addNewItemCategory(itemCategoryId, itemCategory);
+                addNewItemCategory(itemCategory);
                 break;
             case 2:
-                deleteItemCategory(itemCategoryId, itemCategory);
+                deleteItemCategory(itemCategory);
                 break;
             case 3:
-                updateItemCategory(itemCategoryId, itemCategory);
+                updateItemCategory(itemCategory);
                 break;
             case 4:
-                stockManagement();
+                stockManagement(itemCategory);
                 break;
             default:
                 System.out.println("Invalid Number...Please try again!!!");
                 clearWorkingConsole();
+                mainMenuConsole();
+                mainMenuInput();
                 break;
         }
     }
 
-    private static void stockManagement() {
-
+    private static void stockManagement(String[] itemCategories) {
+        stockManageMenuConsole();
+        inputManageItemCategories(itemCategories);
     }
 
-    private static void updateItemCategory(String[] itemCategoriesIds, String[] itemCategory) {
+    private static void updateItemCategory(String[] itemCategory) {
         Scanner updateCategory = new Scanner(System.in);
         System.out.println("+-------------------------------------------------------------------------------------------+");
         System.out.println("|");
@@ -338,12 +344,12 @@ public class AppInitializer {
                         case 'y':
                         case 'Y':
                             clearWorkingConsole();
-                            updateItemCategory(itemCategoriesIds, itemCategory);
+                            updateItemCategory(itemCategory);
                         case 'n':
                         case 'N':
                             clearWorkingConsole();
                             manageItemCategories();
-                            inputManageItemCategories(itemCategoriesIds, itemCategory);
+                            inputManageItemCategories(itemCategory);
                             break;
                         default:
                             System.out.println("Invalid Value.. Try Again..!");
@@ -353,8 +359,8 @@ public class AppInitializer {
         }
     }
 
-
-    private static void deleteItemCategory(String[] itemCategoriesId, String[] itemCategory) {
+    // delete item category
+    private static void deleteItemCategory(String[] itemCategory) {
         Scanner deleteCategory = new Scanner(System.in);
         System.out.print("\n");
         System.out.println("+-------------------------------------------------------------------------------------------+");
@@ -364,61 +370,49 @@ public class AppInitializer {
         System.out.println("+-------------------------------------------------------------------------------------------+");
 
         L1:
-        for (int i = 0; i < itemCategoriesId.length; i++) {
-            System.out.print("Enter The Item Category ID:");
-            String tempItemCategoryId = deleteCategory.next();
+        while (true) {
+            System.out.print("Enter The Item Category Name: ");
+            String tempItemCategoryName = deleteCategory.next();
 
-            //check exists the id before deleting.
-            if (!tempItemCategoryId.equals(itemCategoriesId[i])) {
-                System.out.println("Can't find Item Category Id. Try again..");
-                System.out.print("Enter The Item Category ID:");
-                deleteCategory.next();
-            }
-
-            // inside loop
-            for (int j = 0; j < itemCategoriesId.length; j++) {
-                if (tempItemCategoryId.equals(itemCategoriesId[j])) {
-                    for (int k = j; k < itemCategoriesId.length - 1; k++) {
-                        itemCategoriesId[k] = itemCategoriesId[k + 1];
-                        itemCategory[k] = itemCategory[k + 1];
+            boolean found = false;
+            for (int i = 0; i < itemCategory.length; i++) {
+                if (tempItemCategoryName.equalsIgnoreCase(itemCategory[i])) {
+                    found = true;
+                    for (int j = i; j < itemCategory.length - 1; j++) {
+                        itemCategory[j] = itemCategory[j + 1];
                     }
-                    String[] tempItemCateId = new String[itemCategoriesId.length - 1];
-                    String[] tempItemCateName = new String[itemCategory.length - 1];
-
-                    for (int l = 0; l < tempItemCateId.length; l++) {
-                        tempItemCateId[l] = itemCategoriesId[l];
-                        tempItemCateName[l] = itemCategory[l];
-                    }
-                    itemCategoriesId = tempItemCateId;
-                    itemCategory = tempItemCateName;
-                    System.out.print("Deleted Successfully. Do you want to delete another supplier? (Y/N) : ");
+                    itemCategory = Arrays.copyOf(itemCategory, itemCategory.length - 1);
+                    System.out.print("Deleted Successfully. Do you want to delete another category? (Y/N): ");
                     char ch = deleteCategory.next().charAt(0);
                     switch (ch) {
                         case 'y':
                         case 'Y':
                             clearWorkingConsole();
-                            deleteItemCategory(itemCategoriesId, itemCategory);
+                            deleteItemCategory(itemCategory);
                             break;
                         case 'n':
                         case 'N':
                             clearWorkingConsole();
                             manageItemCategories();
-                            inputManageItemCategories(itemCategoriesId, itemCategory);
-                            break;
+                            inputManageItemCategories(itemCategory);
+                            break L1;
                         default:
-                            System.out.println("Invalid Number...Please try again!!!");
+                            System.out.println("Invalid input. Please try again!");
                             clearWorkingConsole();
                             mainMenuConsole();
-                            mainMenuInput(false);
+                            mainMenuInput();
+                            break L1;
                     }
-                    continue L1;
                 }
+            }
+            if (!found) {
+                System.out.println("Can't find Item Category. Try again...");
             }
         }
     }
 
-
-    private static void addNewItemCategory(String[] itemCategoriesId, String[] itemCategories) {
+    // add item category
+    private static void addNewItemCategory(String[] itemCategories) {
         Scanner addCategory = new Scanner(System.in);
         System.out.print("\n");
         System.out.println("+-------------------------------------------------------------------------------------------+");
@@ -427,31 +421,30 @@ public class AppInitializer {
         System.out.println("\t\t\t\t\t\t\t\t\t\t\t|");
         System.out.println("+-------------------------------------------------------------------------------------------+");
 
-        int indexValues = nextIdValues(itemCategoriesId);
-        for (int i = indexValues; i < itemCategoriesId.length; i++) {
-            System.out.print("Item Category ID:");
-            String tempId = addCategory.next();
+        int index = nextEmptyIndex(itemCategories);
+        if (index != -1) {
+            System.out.print("Enter the New Item Category: ");
+            String newCategory = addCategory.nextLine();
 
-            boolean itemCategoryIdFounded = false;
-            for (String s : itemCategoriesId) {
-                if (tempId.equals(s)) {
-                    System.out.println("Already Exists. try another Item category id!");
-                    itemCategoryIdFounded = true;
+            boolean categoryExists = false;
+            for (String category : itemCategories) {
+                if (newCategory.equalsIgnoreCase(category)) {
+                    System.out.println("Category already exists. Try another item category!");
+                    categoryExists = true;
                     break;
                 }
             }
 
-            if (!itemCategoryIdFounded) {
-                itemCategoriesId[i] = tempId;
-                System.out.print("Enter the New Item category:");
-                itemCategories[i] = addCategory.next();
-                System.out.print("Added Successfully! Do You want to add another Item Category? [Y/N] >");
-                char c = addCategory.next().charAt(0);
-                switch (c) {
+            if (!categoryExists) {
+                itemCategories[index] = newCategory;
+                System.out.print("Added successfully! Do you want to add another item category? [Y/N] > ");
+                char choice = addCategory.nextLine().charAt(0);
+                switch (choice) {
                     case 'y':
                     case 'Y':
                         clearWorkingConsole();
-                        addNewItemCategory(itemCategoriesId, itemCategories);
+                        addNewItemCategory(itemCategories);
+                        break;
                     case 'n':
                     case 'N':
                         clearWorkingConsole();
@@ -459,10 +452,22 @@ public class AppInitializer {
                         inputStockManageMenu();
                         break;
                     default:
-                        System.out.println("Invalid Value.. Try Again..!");
+                        System.out.println("Invalid value. Try again!");
                 }
             }
+        } else {
+            System.out.println("No more space to add new item categories.");
         }
+    }
+
+
+    private static int nextEmptyIndex(String[] itemCategories) {
+        for (int i = 0; i < itemCategories.length; i++) {
+            if (itemCategories[i] == null || itemCategories[i].isEmpty()) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     //supplier manage menu
@@ -574,7 +579,7 @@ public class AppInitializer {
             default:
                 System.out.println("Invalid Value... Please try again!!!");
                 mainMenuConsole();
-                mainMenuInput(true);
+                mainMenuInput();
         }
     }
 
@@ -679,7 +684,7 @@ public class AppInitializer {
                             System.out.println("Invalid Number...Please try again!!!");
                             clearWorkingConsole();
                             mainMenuConsole();
-                            mainMenuInput(true);
+                            mainMenuInput();
                     }
                     continue L1;
                 }
@@ -808,27 +813,23 @@ public class AppInitializer {
         System.out.print("\t\t\t\t\t\t\t\t\tCREDENTIAL MANAGE");
         System.out.println("\t\t\t\t\t\t\t\t\t\t|");
         System.out.println("+-------------------------------------------------------------------------------------------+");
-
-        String username = "";
-        String password = "";
-        boolean validCredentials = true;
+        boolean validCredentials = false;
 
         while (!validCredentials) {
             System.out.print("Please Enter the user name to verify it's you:");
-            username = changeCredentials.next();
+            String username = changeCredentials.next();
 
             if (!username.equals("eraboy")) {
                 System.out.println("Invalid User name. Try again!");
                 System.out.print("Please Enter the user name to verify it's you: ");
-                username = changeCredentials.next();
+                changeCredentials.next();
             } else {
                 System.out.println("Hey " + username);
                 System.out.print("Enter your current password: ");
-                password = changeCredentials.next();
+                String password = changeCredentials.next();
                 if (password.equals("1234") || password.length() != passwords.length) {
                     System.out.print("Enter your new password: ");
-                    String newPassword;
-                    newPassword = changeCredentials.next();
+                    String newPassword = changeCredentials.next();;
 
                     password = passwords[newPassword.length()];
                     System.out.println("Password changed successfully!");
