@@ -7,7 +7,7 @@ import java.util.Scanner;
  */
 public class AppInitializer {
     /*Static Arrays*/
-    //password arrays
+    //user credential arrays
     public static String[] passwords = new String[1000];
 
     // supplier arrays
@@ -15,55 +15,89 @@ public class AppInitializer {
     public static String[] supplierNames = new String[supplierIds.length];
 
     // Item category Array
-    public static String[] itemCategoriesIds = new String[1000];
-    public static String[] itemCategories = new String[itemCategoriesIds.length];
+    public static String[] itemCategories = new String[1000];
 
     // main method
     public static void main(String[] args) {
         logInConsole();
-        //mainMenuInput();
     }
 
     //login to the system.
+    /*private static void logInConsole() {
+        Scanner usernameAndPassword = new Scanner(System.in);
+        System.out.print("\n");
+        System.out.println("+-----------------------------------------------------------------------------------+");
+        System.out.print("|");
+        System.out.print(" \t\t\t\t\t\t\t\t LOGIN PAGE ");
+        System.out.println("\t\t\t\t\t\t\t\t\t    |");
+        System.out.println("+-----------------------------------------------------------------------------------+");
+
+        boolean validCredentials = false;
+        do {
+            System.out.print("User Name:");
+            String userName = usernameAndPassword.next();
+
+            if (!userName.equals("eraboy")) {
+                System.out.println("Invalid User name. Try again!");
+            } else {
+                validCredentials = true;
+            }
+        } while (!validCredentials);
+
+        validCredentials = false;
+        String newPassword = Arrays.toString(passwords);
+        do {
+            System.out.print("Password:");
+            String password = usernameAndPassword.next();
+
+            if (password.equals("1234") || password.equals(newPassword)) {
+                validCredentials = true;
+                clearWorkingConsole();
+                mainMenuConsole();
+                mainMenuInput();
+            } else {
+                System.out.println("Invalid Password. Try again!");
+            }
+        } while (!validCredentials);
+    }*/
+
     private static void logInConsole() {
         Scanner usernameAndPassword = new Scanner(System.in);
         System.out.print("\n");
         System.out.println("+-----------------------------------------------------------------------------------+");
         System.out.print("|");
-        System.out.print("\t\t\t\t\t\t\t\t\tLOGIN PAGE");
-        System.out.println("\t\t\t\t\t\t\t\t\t\t|");
+        System.out.print(" \t\t\t\t\t\t\t\t LOGIN PAGE ");
+        System.out.println("\t\t\t\t\t\t\t\t\t    |");
         System.out.println("+-----------------------------------------------------------------------------------+");
 
-        System.out.print("User Name:");
-        String userName = usernameAndPassword.next();
+        boolean validCredentials = false;
+        do {
+            System.out.print("User Name:");
+            String userName = usernameAndPassword.next();
 
-        System.out.print("Password:");
-        String password = usernameAndPassword.next();
-
-        if (userName.equals("eraboy") && !password.equals("1234") || password.length() != passwords.length) {
-            mainMenuConsole();
-            mainMenuInput();
-            clearWorkingConsole();
-        } else {
-            boolean validCredentials = false;
-            while (!validCredentials) {
-                if (!userName.equals("eraboy")) {
-                    System.out.println("Invalid User name. Try again!");
-                    System.out.print("User Name:");
-                    userName = usernameAndPassword.next();
-                } else if (!password.equals("1234")) {
-                    System.out.println("Invalid Password. Try again!");
-                    System.out.print("Password:");
-                    password = usernameAndPassword.next();
-                } else {
-                    validCredentials = true;
-                    clearWorkingConsole();
-                    mainMenuConsole();
-                    mainMenuInput();
-                }
+            if (!userName.equals("eraboy")) {
+                System.out.println("Invalid User name. Try again!");
+            } else {
+                validCredentials = true;
             }
-        }
+        } while (!validCredentials);
+
+        validCredentials = false;
+        do {
+            System.out.print("Password:");
+            String password = usernameAndPassword.next();
+
+            if (password.equals("1234") || Arrays.asList(passwords).contains(password)) {
+                validCredentials = true;
+                clearWorkingConsole();
+                mainMenuConsole();
+                mainMenuInput();
+            } else {
+                System.out.println("Invalid Password. Try again!");
+            }
+        } while (!validCredentials);
     }
+
 
     // clearing console.
     private static void clearWorkingConsole() {
@@ -318,46 +352,53 @@ public class AppInitializer {
         System.out.println("\t\t\t\t\t\t\t\t\t\t\t|");
         System.out.println("+-------------------------------------------------------------------------------------------+");
 
-        for (String itemCategoriesId : itemCategoriesIds) {
-            System.out.print("Enter The Item Category ID:");
-            String tempItemCategoryId = updateCategory.next();
-            char yesNo;
+        System.out.print("Enter the Item Category Name to update: ");
+        String categoryToUpdate = updateCategory.nextLine();
+        int index = -1;
 
-            //check exists the id before updating.
-            if (!tempItemCategoryId.equals(itemCategoriesId)) {
-                System.out.println("Can't find item category Id. Try again..");
-                System.out.print("Enter The Item Category ID:");
-                updateCategory.next();
-            }
-
-            // validating the id for updating.
-            for (int j = 0; j < itemCategoriesIds.length; j++) {
-                if (tempItemCategoryId.equals(itemCategoriesIds[j])) {
-                    System.out.println("Item Category Name:" + itemCategory[j]);
-                    System.out.println();
-                    System.out.print("Enter the new Supplier Name:");
-                    String tempItemCategoryName = updateCategory.next();
-                    itemCategory[j] = tempItemCategoryName;
-                    System.out.print("Updated Successfully! Do You want to update another item category? [Y/N] >");
-                    yesNo = updateCategory.next().charAt(0);
-                    switch (yesNo) {
-                        case 'y':
-                        case 'Y':
-                            clearWorkingConsole();
-                            updateItemCategory(itemCategory);
-                        case 'n':
-                        case 'N':
-                            clearWorkingConsole();
-                            manageItemCategories();
-                            inputManageItemCategories(itemCategory);
-                            break;
-                        default:
-                            System.out.println("Invalid Value.. Try Again..!");
-                    }
-                }
+        // Check if the category name exists before updating.
+        for (int i = 0; i < itemCategory.length; i++) {
+            if (categoryToUpdate.equalsIgnoreCase(itemCategory[i])) {
+                index = i;
+                break;
             }
         }
+
+        if (index == -1) {
+            System.out.println("Item Category not found. Try again.");
+            updateItemCategory(itemCategory);
+            return;
+        }
+
+        System.out.println("Current Item Category Name: " + itemCategory[index]);
+        System.out.print("Enter the new Item Category Name: ");
+        String newCategoryName = updateCategory.nextLine();
+        itemCategory[index] = newCategoryName;
+
+        System.out.print("Updated Successfully! Do you want to update another item category? [Y/N] > ");
+        char yesNo = updateCategory.next().charAt(0);
+
+        switch (yesNo) {
+            case 'y':
+            case 'Y':
+                clearWorkingConsole();
+                updateItemCategory(itemCategory);
+                break;
+            case 'n':
+            case 'N':
+                clearWorkingConsole();
+                manageItemCategories();
+                inputManageItemCategories(itemCategory);
+                break;
+            default:
+                System.out.println("Invalid Value. Try Again.");
+                clearWorkingConsole();
+                mainMenuConsole();
+                mainMenuInput();
+                break;
+        }
     }
+
 
     // delete item category
     private static void deleteItemCategory(String[] itemCategory) {
@@ -405,9 +446,6 @@ public class AppInitializer {
                     }
                 }
             }
-            if (!found) {
-                System.out.println("Can't find Item Category. Try again...");
-            }
         }
     }
 
@@ -448,19 +486,17 @@ public class AppInitializer {
                     case 'n':
                     case 'N':
                         clearWorkingConsole();
-                        stockManageMenuConsole();
-                        inputStockManageMenu();
+                        manageItemCategories();
+                        inputManageItemCategories(itemCategories);
                         break;
                     default:
                         System.out.println("Invalid value. Try again!");
                 }
             }
-        } else {
-            System.out.println("No more space to add new item categories.");
         }
     }
 
-
+    // checking the empty of item categories array.
     private static int nextEmptyIndex(String[] itemCategories) {
         for (int i = 0; i < itemCategories.length; i++) {
             if (itemCategories[i] == null || itemCategories[i].isEmpty()) {
@@ -814,33 +850,55 @@ public class AppInitializer {
         System.out.println("\t\t\t\t\t\t\t\t\t\t|");
         System.out.println("+-------------------------------------------------------------------------------------------+");
         boolean validCredentials = false;
+        int attemptCount = 0;
+        int maxAttempts = 10;
 
-        while (!validCredentials) {
-            System.out.print("Please Enter the user name to verify it's you:");
+        do {
+            System.out.print("Please Enter the user name to verify it's you: ");
             String username = changeCredentials.next();
 
             if (!username.equals("eraboy")) {
                 System.out.println("Invalid User name. Try again!");
-                System.out.print("Please Enter the user name to verify it's you: ");
-                changeCredentials.next();
+                System.out.println();
+                attemptCount++;
+
+                if (attemptCount >= maxAttempts) {
+                    System.out.println("Max attempts exceeded. Exiting the program.");
+                    System.exit(0);
+                }
             } else {
                 System.out.println("Hey " + username);
                 System.out.print("Enter your current password: ");
                 String password = changeCredentials.next();
-                if (password.equals("1234") || password.length() != passwords.length) {
-                    System.out.print("Enter your new password: ");
-                    String newPassword = changeCredentials.next();;
 
-                    password = passwords[newPassword.length()];
+                if (password.equals("1234") || password.equals(passwords[password.length()])) {
+                    System.out.print("Enter your new password: ");
+                    String newPassword = changeCredentials.next();
+                    passwords[newPassword.length()] = newPassword;
                     System.out.println("Password changed successfully!");
-                    clearWorkingConsole();
-                    logInConsole();
+                    System.out.print("Do you want to go home page? (Y/N):");
+                    char c = changeCredentials.next().charAt(0);
+
+                    switch (c) {
+                        case 'y':
+                        case 'Y':
+                            clearWorkingConsole();
+                            mainMenuConsole();
+                            mainMenuInput();
+                            break;
+                        case 'n':
+                        case 'N':
+                            System.exit(0);
+                            break;
+                        default:
+                            System.out.println("Invalid Value. Try Again!");
+                            break;
+                    }
                 } else {
                     System.out.println("Invalid Password. Try again!");
-                    System.out.print("Enter your current password:");
-                    password = changeCredentials.next();
+                    System.out.println();
                 }
             }
-        }
+        } while (!validCredentials);
     }
 }
