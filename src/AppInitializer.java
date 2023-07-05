@@ -255,7 +255,7 @@ public class AppInitializer {
     private static void getItemsSupplierWise() {
     }
 
-
+    // add items
     private static void addItem(String[] itemCategory, String[] supIds, String[] supNames) {
         Scanner addItem = new Scanner(System.in);
         System.out.print("\n");
@@ -270,7 +270,7 @@ public class AppInitializer {
             System.out.print("OOPS! It seems that you don't have any item categories in the system. " +
                     "Do you want to add a new item category? (Y/N) ");
             char addCategory = addItem.next().charAt(0);
-            switch (addCategory){
+            switch (addCategory) {
                 case 'Y':
                 case 'y':
                     clearWorkingConsole();
@@ -288,7 +288,7 @@ public class AppInitializer {
             System.out.print("OOPS! It seems that you don't have any suppliers in the system. " +
                     "Do you want to add a new supplier? (Y/N) ");
             char addSupplier = addItem.next().charAt(0);
-            switch (addSupplier){
+            switch (addSupplier) {
                 case 'Y':
                 case 'y':
                     clearWorkingConsole();
@@ -299,7 +299,6 @@ public class AppInitializer {
                     mainMenuConsole();
                     mainMenuInput(itemCategory, supIds, supNames);
             }
-
         }
 
         // Continue with adding items
@@ -317,7 +316,7 @@ public class AppInitializer {
 
         System.out.print("Enter the supplier number > ");
         int supplierNumber = addItem.nextInt();
-        addItem.nextLine(); // Consume newline character
+        addItem.nextLine();
 
         // Check if the selected supplier exists
         if (supplierNumber < 1 || supplierNumber > supIds.length || supIds[supplierNumber - 1] == null) {
@@ -336,7 +335,7 @@ public class AppInitializer {
 
         System.out.print("Enter the category number > ");
         int categoryNumber = addItem.nextInt();
-        addItem.nextLine(); // Consume newline character
+        addItem.nextLine();
 
         // Check if the selected category exists
         if (categoryNumber < 1 || categoryNumber > itemCategory.length || itemCategory[categoryNumber - 1] == null) {
@@ -365,9 +364,7 @@ public class AppInitializer {
         items[itemCount][6] = String.valueOf(quantityOnHand);
         itemCount++;
 
-        System.out.println("Item added successfully!");
-
-        System.out.print("Do you want to add another Item? (Y/N) ");
+        System.out.print("Item added successfully! Do you want to add another Item? (Y/N) ");
         char addAnotherItem = addItem.next().charAt(0);
         switch (addAnotherItem) {
             case 'Y':
@@ -381,69 +378,6 @@ public class AppInitializer {
                 mainMenuInput(itemCategory, supIds, supNames);
         }
     }
-
-    // add items
-    /*private static void addItem(String[] supIds, String[] supNames, String[] itemCategory) {
-        Scanner addItem = new Scanner(System.in);
-        System.out.print("\n");
-        System.out.println("+-------------------------------------------------------------------------------------------+");
-        System.out.print("|");
-        System.out.print("\t\t\t\t\t\t\t\tADD ITEM");
-        System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t|");
-        System.out.println("+-------------------------------------------------------------------------------------------+");
-
-        if (itemCategory.length == 0) {
-            System.out.println("OOPS! It seems that you don't have any item categories in the system.");
-            System.out.print("Do you want to add a new item category? (Y/N): ");
-            char yesNo = addItem.next().charAt(0);
-            switch (yesNo) {
-                case 'y':
-                case 'Y':
-                    clearWorkingConsole();
-                    addNewItemCategory(itemCategory, supIds, supNames);
-                    break;
-                case 'n':
-                case 'N':
-                    clearWorkingConsole();
-                    mainMenuConsole();
-                    mainMenuInput(itemCategory, supIds, supNames);
-                    return; // Exit the method if item categories are not added
-                default:
-                    System.out.println("Invalid input...Please try again!!!");
-            }
-        }
-
-        if (supIds.length == 0 || supNames.length == 0) {
-            System.out.println("OOPS! It seems that you don't have any suppliers in the system.");
-            System.out.print("Do you want to add a new supplier? (Y/N): ");
-            char yesNo = addItem.next().charAt(0);
-            switch (yesNo) {
-                case 'y':
-                case 'Y':
-                    clearWorkingConsole();
-                    addSupplier(supIds, supNames, itemCategory);
-                    break;
-                case 'n':
-                case 'N':
-                    System.out.println("You need to add the supplier details before adding a new item.");
-                    System.out.print("Do you want to add a new supplier now? (Y/N): ");
-                    char addSup = addItem.next().charAt(0);
-                    if (addSup == 'y' || addSup == 'Y') {
-                        clearWorkingConsole();
-                        addSupplier(itemCategory, supIds, supNames);
-                    } else {
-                        clearWorkingConsole();
-                        mainMenuConsole();
-                        mainMenuInput(itemCategory, supIds, supNames);
-                        return; // Exit the method if suppliers are not added
-                    }
-                    break;
-                default:
-                    System.out.println("Invalid input...Please try again!!!");
-            }
-        }
-    }*/
-
 
     // manage item categories
     private static void manageItemCategories(String[] itemCategory, String[] supIds, String[] supNames) {
