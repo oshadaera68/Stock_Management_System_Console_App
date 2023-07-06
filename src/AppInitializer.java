@@ -23,11 +23,11 @@ public class AppInitializer {
 
     // main method
     public static void main(String[] args) {
-        logInConsole(itemCategories, supplierIds, supplierNames);
+        logInConsole(itemCategories, supplierIds, supplierNames, items);
     }
 
     //login to the system.
-    private static void logInConsole(String[] itemCategory, String[] supIds, String[] supNames) {
+    private static void logInConsole(String[] itemCategory, String[] supIds, String[] supNames, String[][] item) {
         Scanner usernameAndPassword = new Scanner(System.in);
         System.out.print("\n");
         System.out.println("+-----------------------------------------------------------------------------------+");
@@ -57,7 +57,7 @@ public class AppInitializer {
                 validCredentials = true;
                 clearWorkingConsole();
                 mainMenuConsole();
-                mainMenuInput(itemCategory, supIds, supNames);
+                mainMenuInput(itemCategory, supIds, supNames, item);
             } else {
                 System.out.println("Invalid Password. Try again!");
             }
@@ -100,38 +100,38 @@ public class AppInitializer {
     }
 
     // input a number of main menu
-    private static void mainMenuInput(String[] itemCategory, String[] supIds, String[] supNames) {
+    private static void mainMenuInput(String[] itemCategory, String[] supIds, String[] supNames, String[][] item) {
         Scanner inputNum = new Scanner(System.in);
         System.out.print("Enter an option to continue > ");
         int opNum = inputNum.nextInt();
         clearWorkingConsole();
         switch (opNum) {
             case 1:
-                changeTheCredentials(itemCategory, supIds, supNames);
+                changeTheCredentials(itemCategory, supIds, supNames, item);
                 break;
             case 2:
                 supplierManageMenuConsole();
                 break;
             case 3:
-                stockManageMenuConsole(itemCategory, supIds, supNames);
+                stockManageMenuConsole(itemCategory, supIds, supNames, item);
                 break;
             case 4:
-                logOut(true, itemCategory, supIds, supNames);
+                logOut(true, itemCategory, supIds, supNames, item);
                 break;
             case 5:
-                exitTheSystem(itemCategory, supIds, supNames);
+                exitTheSystem(itemCategory, supIds, supNames, item);
                 break;
             default:
                 System.out.println("Invalid Number...Please try again!!!");
                 clearWorkingConsole();
                 mainMenuConsole();
-                mainMenuInput(itemCategory, supIds, supNames);
+                mainMenuInput(itemCategory, supIds, supNames, item);
                 break;
         }
     }
 
     // exit the system
-    private static void exitTheSystem(String[] itemCategory, String[] supIds, String[] supNames) {
+    private static void exitTheSystem(String[] itemCategory, String[] supIds, String[] supNames, String[][] item) {
         Scanner exitNum = new Scanner(System.in);
         System.out.print("Did You exit the System?[Y/N] >");
         String yesNo = exitNum.next();
@@ -145,28 +145,28 @@ public class AppInitializer {
             case "N":
                 clearWorkingConsole();
                 mainMenuConsole();
-                mainMenuInput(itemCategory, supIds, supNames);
+                mainMenuInput(itemCategory, supIds, supNames, item);
                 break;
             default:
                 System.out.println("Invalid Value.. Try Again..!");
                 clearWorkingConsole();
                 mainMenuConsole();
-                mainMenuInput(itemCategory, supIds, supNames);
+                mainMenuInput(itemCategory, supIds, supNames, item);
                 break;
         }
     }
 
     // log out in the system
-    private static boolean logOut(boolean isLogOut, String[] itemCategory, String[] supIds, String[] supNames) {
+    private static boolean logOut(boolean isLogOut, String[] itemCategory, String[] supIds, String[] supNames, String[][] item) {
         if (isLogOut) {
-            logInConsole(itemCategory, supIds, supNames);
-            mainMenuInput(itemCategory, supIds, supNames);
+            logInConsole(itemCategory, supIds, supNames, item);
+            mainMenuInput(itemCategory, supIds, supNames, item);
         }
         return false;
     }
 
     //stock manage menu
-    private static void stockManageMenuConsole(String[] itemCategory, String[] supIds, String[] supNames) {
+    private static void stockManageMenuConsole(String[] itemCategory, String[] supIds, String[] supNames, String[][] item) {
         System.out.print("\n");
         System.out.println("+-------------------------------------------------------------------------------------------+");
         System.out.print("|");
@@ -182,21 +182,21 @@ public class AppInitializer {
         System.out.print("[6] Home Page");
         System.out.println();
         clearWorkingConsole();
-        inputStockManageMenu(itemCategory, supIds, supNames);
+        inputStockManageMenu(itemCategory, supIds, supNames, item);
     }
 
     // user inputs in stock manage menu
-    private static void inputStockManageMenu(String[] itemCategory, String[] supIds, String[] supNames) {
+    private static void inputStockManageMenu(String[] itemCategory, String[] supIds, String[] supNames, String[][] item) {
         Scanner inputNum = new Scanner(System.in);
         System.out.print("Enter an option to continue > ");
         int opNum = inputNum.nextInt();
         clearWorkingConsole();
         switch (opNum) {
             case 1:
-                manageItemCategories(itemCategory, supIds, supNames);
+                manageItemCategories(itemCategory, supIds, supNames, item);
                 break;
             case 2:
-                addItem(itemCategory, supIds, supNames);
+                addItem(itemCategory, supIds, supNames, item);
                 break;
             case 3:
                 getItemsSupplierWise();
@@ -208,13 +208,13 @@ public class AppInitializer {
                 rankItemsPerUnitPrice();
                 break;
             case 6:
-                homePage(itemCategory, supIds, supNames);
+                homePage(itemCategory, supIds, supNames, item);
                 break;
             default:
                 System.out.println("Invalid Number...Please try again!!!");
                 clearWorkingConsole();
-                inputStockManageMenu(itemCategory, supIds, supNames);
-                stockManageMenuConsole(itemCategory, supIds, supNames);
+                inputStockManageMenu(itemCategory, supIds, supNames, item);
+                stockManageMenuConsole(itemCategory, supIds, supNames, item);
                 break;
         }
     }
@@ -224,7 +224,7 @@ public class AppInitializer {
     }
 
     // navigating home page
-    private static void homePage(String[] itemCategory, String[] supIds, String[] supNames) {
+    private static void homePage(String[] itemCategory, String[] supIds, String[] supNames, String[][] item) {
         Scanner exitNum = new Scanner(System.in);
         System.out.print("Did You want to go to the Home Page?[Y/N] >");
         String yesNo = exitNum.next();
@@ -233,7 +233,7 @@ public class AppInitializer {
             case "Y":
                 clearWorkingConsole();
                 mainMenuConsole();
-                mainMenuInput(itemCategory, supIds, supNames);
+                mainMenuInput(itemCategory, supIds, supNames, item);
                 break;
             case "n":
             case "N":
@@ -242,7 +242,7 @@ public class AppInitializer {
                 break;
             default:
                 System.out.println("Invalid Value.. Try Again..!");
-                homePage(itemCategory, supIds, supNames);
+                homePage(itemCategory, supIds, supNames, item);
                 break;
         }
     }
@@ -256,7 +256,7 @@ public class AppInitializer {
     }
 
     // add items
-    private static void addItem(String[] itemCategory, String[] supIds, String[] supNames) {
+    private static void addItem(String[] itemCategory, String[] supIds, String[] supNames, String[][] item) {
         Scanner addItem = new Scanner(System.in);
         System.out.print("\n");
         System.out.println("+-----------------------------------------------------------------------------------+");
@@ -274,12 +274,12 @@ public class AppInitializer {
                 case 'Y':
                 case 'y':
                     clearWorkingConsole();
-                    addNewItemCategory(itemCategory, supIds, supNames);
+                    addNewItemCategory(itemCategory, supIds, supNames, item);
                 case 'N':
                 case 'n':
                     clearWorkingConsole();
                     mainMenuConsole();
-                    mainMenuInput(itemCategory, supIds, supNames);
+                    mainMenuInput(itemCategory, supIds, supNames, item);
             }
         }
 
@@ -292,12 +292,12 @@ public class AppInitializer {
                 case 'Y':
                 case 'y':
                     clearWorkingConsole();
-                    addSupplier(itemCategory, supIds, supNames);
+                    addSupplier(itemCategory, supIds, supNames, item);
                 case 'N':
                 case 'n':
                     clearWorkingConsole();
                     mainMenuConsole();
-                    mainMenuInput(itemCategory, supIds, supNames);
+                    mainMenuInput(itemCategory, supIds, supNames, item);
             }
         }
 
@@ -307,10 +307,12 @@ public class AppInitializer {
 
         // Display supplier details
         System.out.println("Suppliers list:");
-        System.out.println("#\tSupplier ID\tSupplier Name");
+        System.out.println("+------------+---------------+--------------+");
+        System.out.println("|\t#\tSupplier ID | \tSupplier Name\t|");
+        System.out.println("+------------+---------------+--------------+");
         for (int i = 0; i < supIds.length; i++) {
             if (supIds[i] != null) {
-                System.out.println((i + 1) + "\t" + supIds[i] + "\t\t" + supNames[i]);
+                System.out.println("|" + (i + 1) + "\t" + supIds[i] + "|" + "\t\t" + supNames[i] + "|");
             }
         }
 
@@ -355,13 +357,13 @@ public class AppInitializer {
         addItem.nextLine(); // Consume newline character
 
         // Add item to the items array
-        items[itemCount][0] = itemCode;
-        items[itemCount][1] = supIds[supplierNumber - 1];
-        items[itemCount][2] = supNames[supplierNumber - 1];
-        items[itemCount][3] = itemCategory[categoryNumber - 1];
-        items[itemCount][4] = description;
-        items[itemCount][5] = String.valueOf(unitPrice);
-        items[itemCount][6] = String.valueOf(quantityOnHand);
+        item[itemCount][0] = itemCode;
+        item[itemCount][1] = supIds[supplierNumber - 1];
+        item[itemCount][2] = supNames[supplierNumber - 1];
+        item[itemCount][3] = itemCategory[categoryNumber - 1];
+        item[itemCount][4] = description;
+        item[itemCount][5] = String.valueOf(unitPrice);
+        item[itemCount][6] = String.valueOf(quantityOnHand);
         itemCount++;
 
         System.out.print("Item added successfully! Do you want to add another Item? (Y/N) ");
@@ -370,17 +372,17 @@ public class AppInitializer {
             case 'Y':
             case 'y':
                 clearWorkingConsole();
-                addItem(itemCategory, supIds, supNames);
+                addItem(itemCategory, supIds, supNames, item);
             case 'N':
             case 'n':
                 clearWorkingConsole();
                 mainMenuConsole();
-                mainMenuInput(itemCategory, supIds, supNames);
+                mainMenuInput(itemCategory, supIds, supNames, item);
         }
     }
 
     // manage item categories
-    private static void manageItemCategories(String[] itemCategory, String[] supIds, String[] supNames) {
+    private static void manageItemCategories(String[] itemCategory, String[] supIds, String[] supNames, String[][] item) {
         System.out.print("\n");
         System.out.println("+-------------------------------------------------------------------------------------------+");
         System.out.print("|");
@@ -394,43 +396,43 @@ public class AppInitializer {
         System.out.println("[4] Stock Management");
         System.out.println();
         clearWorkingConsole();
-        inputManageItemCategories(itemCategory, supIds, supNames);
+        inputManageItemCategories(itemCategory, supIds, supNames, item);
     }
 
     // user inputs in manage item categories
-    private static void inputManageItemCategories(String[] itemCategory, String[] supIds, String[] supNames) {
+    private static void inputManageItemCategories(String[] itemCategory, String[] supIds, String[] supNames, String[][] item) {
         Scanner inputNum = new Scanner(System.in);
         System.out.print("Enter an option to continue > ");
         int opNum = inputNum.nextInt();
         clearWorkingConsole();
         switch (opNum) {
             case 1:
-                addNewItemCategory(itemCategory, supIds, supNames);
+                addNewItemCategory(itemCategory, supIds, supNames, item);
                 break;
             case 2:
-                deleteItemCategory(itemCategory, supIds, supNames);
+                deleteItemCategory(itemCategory, supIds, supNames, item);
                 break;
             case 3:
-                updateItemCategory(itemCategory, supIds, supNames);
+                updateItemCategory(itemCategory, supIds, supNames, item);
                 break;
             case 4:
-                stockManagement(itemCategory, supIds, supNames);
+                stockManagement(itemCategory, supIds, supNames, item);
                 break;
             default:
                 System.out.println("Invalid Number...Please try again!!!");
                 clearWorkingConsole();
                 mainMenuConsole();
-                mainMenuInput(itemCategory, supIds, supNames);
+                mainMenuInput(itemCategory, supIds, supNames, item);
                 break;
         }
     }
 
-    private static void stockManagement(String[] itemCategory, String[] supIds, String[] supNames) {
-        stockManageMenuConsole(itemCategory, supIds, supNames);
-        inputManageItemCategories(itemCategory, supIds, supNames);
+    private static void stockManagement(String[] itemCategory, String[] supIds, String[] supNames, String[][] item) {
+        stockManageMenuConsole(itemCategory, supIds, supNames, item);
+        inputManageItemCategories(itemCategory, supIds, supNames, item);
     }
 
-    private static void updateItemCategory(String[] itemCategory, String[] supIds, String[] supNames) {
+    private static void updateItemCategory(String[] itemCategory, String[] supIds, String[] supNames, String[][] item) {
         Scanner updateCategory = new Scanner(System.in);
         System.out.println("+-------------------------------------------------------------------------------------------+");
         System.out.println("|");
@@ -452,7 +454,7 @@ public class AppInitializer {
 
         if (index == -1) {
             System.out.println("Item Category not found. Try again.");
-            updateItemCategory(itemCategory, supIds, supNames);
+            updateItemCategory(itemCategory, supIds, supNames, item);
             return;
         }
 
@@ -468,26 +470,26 @@ public class AppInitializer {
             case 'y':
             case 'Y':
                 clearWorkingConsole();
-                updateItemCategory(itemCategory, supIds, supNames);
+                updateItemCategory(itemCategory, supIds, supNames, item);
                 break;
             case 'n':
             case 'N':
                 clearWorkingConsole();
-                manageItemCategories(itemCategory, supIds, supNames);
-                inputManageItemCategories(itemCategory, supIds, supNames);
+                manageItemCategories(itemCategory, supIds, supNames, item);
+                inputManageItemCategories(itemCategory, supIds, supNames, item);
                 break;
             default:
                 System.out.println("Invalid Value. Try Again.");
                 clearWorkingConsole();
                 mainMenuConsole();
-                mainMenuInput(itemCategory, supIds, supNames);
+                mainMenuInput(itemCategory, supIds, supNames, item);
                 break;
         }
     }
 
 
     // delete item category
-    private static void deleteItemCategory(String[] itemCategory, String[] supIds, String[] supNames) {
+    private static void deleteItemCategory(String[] itemCategory, String[] supIds, String[] supNames, String[][] item) {
         Scanner deleteCategory = new Scanner(System.in);
         System.out.print("\n");
         System.out.println("+-------------------------------------------------------------------------------------------+");
@@ -515,19 +517,19 @@ public class AppInitializer {
                         case 'y':
                         case 'Y':
                             clearWorkingConsole();
-                            deleteItemCategory(itemCategory, supIds, supNames);
+                            deleteItemCategory(itemCategory, supIds, supNames, item);
                             break;
                         case 'n':
                         case 'N':
                             clearWorkingConsole();
-                            manageItemCategories(itemCategory, supIds, supNames);
-                            inputManageItemCategories(itemCategory, supIds, supNames);
+                            manageItemCategories(itemCategory, supIds, supNames, item);
+                            inputManageItemCategories(itemCategory, supIds, supNames, item);
                             break L1;
                         default:
                             System.out.println("Invalid input. Please try again!");
                             clearWorkingConsole();
                             mainMenuConsole();
-                            mainMenuInput(itemCategory, supIds, supNames);
+                            mainMenuInput(itemCategory, supIds, supNames, item);
                             break L1;
                     }
                 }
@@ -536,7 +538,7 @@ public class AppInitializer {
     }
 
     // add item category
-    private static void addNewItemCategory(String[] itemCategory, String[] supIds, String[] supNames) {
+    private static void addNewItemCategory(String[] itemCategory, String[] supIds, String[] supNames, String[][] item) {
         Scanner addCategory = new Scanner(System.in);
         System.out.print("\n");
         System.out.println("+-------------------------------------------------------------------------------------------+");
@@ -567,13 +569,13 @@ public class AppInitializer {
                     case 'y':
                     case 'Y':
                         clearWorkingConsole();
-                        addNewItemCategory(itemCategory, supIds, supNames);
+                        addNewItemCategory(itemCategory, supIds, supNames, item);
                         break;
                     case 'n':
                     case 'N':
                         clearWorkingConsole();
-                        manageItemCategories(itemCategory, supIds, supNames);
-                        inputManageItemCategories(itemCategory, supIds, supNames);
+                        manageItemCategories(itemCategory, supIds, supNames, item);
+                        inputManageItemCategories(itemCategory, supIds, supNames, item);
                         break;
                     default:
                         System.out.println("Invalid value. Try again!");
@@ -608,49 +610,49 @@ public class AppInitializer {
         System.out.print("[5] Search Supplier\t\t\t\t");
         System.out.print("[6] Home Page");
         System.out.println();
-        inputSupplierManageMenu(itemCategories, supplierIds, supplierNames);
+        inputSupplierManageMenu(itemCategories, supplierIds, supplierNames, items);
         clearWorkingConsole();
     }
 
     // user inputs in supplier manage menu
-    private static void inputSupplierManageMenu(String[] itemCategory, String[] supIds, String[] supNames) {
+    private static void inputSupplierManageMenu(String[] itemCategory, String[] supIds, String[] supNames, String[][] item) {
         Scanner inputNum = new Scanner(System.in);
         System.out.print("Enter an option to continue > ");
         int opNum = inputNum.nextInt();
         clearWorkingConsole();
         switch (opNum) {
             case 1:
-                addSupplier(itemCategory, supIds, supNames);
+                addSupplier(itemCategory, supIds, supNames, item);
                 break;
             case 2:
-                updateSupplier(itemCategory, supIds, supNames);
+                updateSupplier(itemCategory, supIds, supNames, item);
                 break;
             case 3:
-                deleteSupplier(itemCategory, supIds, supNames);
+                deleteSupplier(itemCategory, supIds, supNames, item);
                 break;
             case 4:
-                viewSupplier(itemCategory, supIds, supNames);
+                viewSupplier(itemCategory, supIds, supNames, item);
                 break;
             case 5:
-                searchSupplier(itemCategory, supIds, supNames);
+                searchSupplier(itemCategory, supIds, supNames, item);
                 break;
             case 6:
                 /*I didn't create new method for navigating homepage.
                 because we created this method before in using stock manage.*/
-                homePage(itemCategory, supIds, supNames);
+                homePage(itemCategory, supIds, supNames, item);
                 break;
             default:
                 System.out.println("Invalid Number...Please try again!!!");
                 clearWorkingConsole();
                 supplierManageMenuConsole();
-                inputSupplierManageMenu(itemCategory, supIds, supNames);
+                inputSupplierManageMenu(itemCategory, supIds, supNames, item);
                 break;
         }
     }
 
     /*Crud Operations of Supplier Array*/
     //Search supplier
-    private static void searchSupplier(String[] itemCategory, String[] supIds, String[] supNames) {
+    private static void searchSupplier(String[] itemCategory, String[] supIds, String[] supNames, String[][] item) {
         Scanner searchSupplier = new Scanner(System.in);
         System.out.print("\n");
         System.out.println("+-------------------------------------------------------------------------------------------+");
@@ -690,23 +692,23 @@ public class AppInitializer {
             case 'y':
             case 'Y':
                 clearWorkingConsole();
-                searchSupplier(itemCategory, supIds, supNames);
+                searchSupplier(itemCategory, supIds, supNames, item);
                 break;
             case 'n':
             case 'N':
                 clearWorkingConsole();
                 supplierManageMenuConsole();
-                inputSupplierManageMenu(itemCategory, supIds, supNames);
+                inputSupplierManageMenu(itemCategory, supIds, supNames, item);
                 break;
             default:
                 System.out.println("Invalid Value... Please try again!!!");
                 mainMenuConsole();
-                mainMenuInput(itemCategory, supIds, supNames);
+                mainMenuInput(itemCategory, supIds, supNames, item);
         }
     }
 
     // view supplier
-    private static void viewSupplier(String[] itemCategory, String[] supIds, String[] supNames) {
+    private static void viewSupplier(String[] itemCategory, String[] supIds, String[] supNames, String[][] item) {
         Scanner viewSupplier = new Scanner(System.in);
         System.out.print("\n");
         System.out.println("+-------------------------------------------------------------------------------------------+");
@@ -735,13 +737,13 @@ public class AppInitializer {
             case 'Y':
                 clearWorkingConsole();
                 supplierManageMenuConsole();
-                inputSupplierManageMenu(itemCategory, supIds, supNames);
+                inputSupplierManageMenu(itemCategory, supIds, supNames, item);
                 break;
             case 'n':
             case 'N':
                 clearWorkingConsole();
                 mainMenuConsole();
-                mainMenuInput(itemCategory, supIds, supNames);
+                mainMenuInput(itemCategory, supIds, supNames, item);
             default:
                 System.out.println("Invalid option. Please try again..");
                 System.exit(0);
@@ -750,7 +752,7 @@ public class AppInitializer {
 
 
     // delete supplier
-    private static void deleteSupplier(String[] itemCategory, String[] supIds, String[] supNames) {
+    private static void deleteSupplier(String[] itemCategory, String[] supIds, String[] supNames, String[][] item) {
         Scanner deleteSupplier = new Scanner(System.in);
         System.out.print("\n");
         System.out.println("+-------------------------------------------------------------------------------------------+");
@@ -794,19 +796,19 @@ public class AppInitializer {
                         case 'y':
                         case 'Y':
                             clearWorkingConsole();
-                            deleteSupplier(itemCategory, supIds, supNames);
+                            deleteSupplier(itemCategory, supIds, supNames, item);
                             break;
                         case 'n':
                         case 'N':
                             clearWorkingConsole();
                             supplierManageMenuConsole();
-                            inputSupplierManageMenu(itemCategory, supIds, supNames);
+                            inputSupplierManageMenu(itemCategory, supIds, supNames, item);
                             break;
                         default:
                             System.out.println("Invalid Number...Please try again!!!");
                             clearWorkingConsole();
                             mainMenuConsole();
-                            mainMenuInput(itemCategory, supIds, supNames);
+                            mainMenuInput(itemCategory, supIds, supNames, item);
                     }
                     continue L1;
                 }
@@ -815,7 +817,7 @@ public class AppInitializer {
     }
 
     // update supplier
-    private static void updateSupplier(String[] itemCategory, String[] supId, String[] supName) {
+    private static void updateSupplier(String[] itemCategory, String[] supId, String[] supName, String[][] item) {
         Scanner updateSupplier = new Scanner(System.in);
         System.out.print("\n");
         System.out.println("+-------------------------------------------------------------------------------------------+");
@@ -851,12 +853,12 @@ public class AppInitializer {
                         case 'y':
                         case 'Y':
                             clearWorkingConsole();
-                            updateSupplier(itemCategory, supId, supName);
+                            updateSupplier(itemCategory, supId, supName, item);
                         case 'n':
                         case 'N':
                             clearWorkingConsole();
                             supplierManageMenuConsole();
-                            inputSupplierManageMenu(itemCategory, supId, supName);
+                            inputSupplierManageMenu(itemCategory, supId, supName, item);
                             break;
                         default:
                             System.out.println("Invalid Value.. Try Again..!");
@@ -867,7 +869,7 @@ public class AppInitializer {
     }
 
     // add supplier
-    private static void addSupplier(String[] itemCategory, String[] supId, String[] supName) {
+    private static void addSupplier(String[] itemCategory, String[] supId, String[] supName, String[][] item) {
         Scanner inputSupplier = new Scanner(System.in);
         System.out.print("\n");
         System.out.println("+-------------------------------------------------------------------------------------------+");
@@ -900,12 +902,12 @@ public class AppInitializer {
                     case 'y':
                     case 'Y':
                         clearWorkingConsole();
-                        addSupplier(itemCategory, supId, supName);
+                        addSupplier(itemCategory, supId, supName, item);
                     case 'n':
                     case 'N':
                         clearWorkingConsole();
                         supplierManageMenuConsole();
-                        inputSupplierManageMenu(itemCategory, supId, supName);
+                        inputSupplierManageMenu(itemCategory, supId, supName, item);
                         break;
                     default:
                         System.out.println("Invalid Value.. Try Again..!");
@@ -927,7 +929,7 @@ public class AppInitializer {
     }
 
     // change credentials
-    private static void changeTheCredentials(String[] itemCategory, String[] supIds, String[] supNames) {
+    private static void changeTheCredentials(String[] itemCategory, String[] supIds, String[] supNames, String[][] item) {
         Scanner changeCredentials = new Scanner(System.in);
         System.out.print("\n");
         System.out.println("+-------------------------------------------------------------------------------------------+");
@@ -970,7 +972,7 @@ public class AppInitializer {
                         case 'Y':
                             clearWorkingConsole();
                             mainMenuConsole();
-                            mainMenuInput(itemCategory, supIds, supNames);
+                            mainMenuInput(itemCategory, supIds, supNames, item);
                             break;
                         case 'n':
                         case 'N':
