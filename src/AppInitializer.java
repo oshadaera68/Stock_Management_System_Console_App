@@ -258,7 +258,7 @@ public class AppInitializer {
                 String qty = item[4];
                 String cat = item[5];
 
-                System.out.printf("|\t\t\t %-25s|\t\t\t %-25s|\t\t\t %-25s|\t\t\t %-25s|\t\t\t %-25s|\t\t\t %-25s|\n", sid,code,desc,price,qty,cat);
+                System.out.printf("|\t\t\t %-25s|\t\t\t %-25s|\t\t\t %-25s|\t\t\t %-25s|\t\t\t %-25s|\t\t\t %-25s|\n", sid, code, desc, price, qty, cat);
             }
         }
         System.out.println("+--------------------+------------------+------------------+------------------+------------------+--------------------+");
@@ -894,7 +894,7 @@ public class AppInitializer {
 
 
     // delete supplier
-    private static void deleteSupplier(String[] itemCategory, String[] supIds, String[] supNames, String[][] item) {
+   /* private static void deleteSupplier(String[] itemCategory, String[] supIds, String[] supNames, String[][] item) {
         Scanner deleteSupplier = new Scanner(System.in);
         System.out.print("\n");
         System.out.println("+-------------------------------------------------------------------------------------------+");
@@ -954,7 +954,77 @@ public class AppInitializer {
                 }
             }
         }
+    }*/
+
+    private static void deleteSupplier(String[] itemCategory, String[] supIds, String[] supNames, String[][] item) {
+        Scanner deleteSupplier = new Scanner(System.in);
+        System.out.print("\n");
+        System.out.println("+-------------------------------------------------------------------------------------------+");
+        System.out.print("|");
+        System.out.print("\t\t\t\t\t\t\t\tDELETE SUPPLIER");
+        System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t|");
+        System.out.println("+-------------------------------------------------------------------------------------------+");
+
+        L1:
+        for (int i = 0; i < supIds.length; i++) {
+            System.out.print("Supplier ID:");
+            String tempSupplierId = deleteSupplier.next();
+
+            // Check if the ID exists before deleting.
+            boolean idExists = false;
+            for (String id : supIds) {
+                if (tempSupplierId.equals(id)) {
+                    idExists = true;
+                    break;
+                }
+            }
+
+            if (!idExists) {
+                System.out.println("Can't find supplier ID. Try again..");
+                continue;
+            }
+
+            for (int j = 0; j < supIds.length; j++) {
+                if (tempSupplierId.equals(supIds[j])) {
+                    for (int k = j; k < supIds.length - 1; k++) {
+                        supIds[k] = supIds[k + 1];
+                        supNames[k] = supNames[k + 1];
+                    }
+                    String[] tempSupId = new String[supIds.length - 1];
+                    String[] tempSupName = new String[supNames.length - 1];
+
+                    for (int l = 0; l < tempSupId.length; l++) {
+                        tempSupId[l] = supIds[l];
+                        tempSupName[l] = supNames[l];
+                    }
+                    supIds = tempSupId;
+                    supNames = tempSupName;
+                    System.out.print("Deleted Successfully. Do you want to delete another supplier? (Y/N) : ");
+                    char ch = deleteSupplier.next().charAt(0);
+                    switch (ch) {
+                        case 'y':
+                        case 'Y':
+                            clearWorkingConsole();
+                            deleteSupplier(itemCategory, supIds, supNames, item);
+                            break;
+                        case 'n':
+                        case 'N':
+                            clearWorkingConsole();
+                            supplierManageMenuConsole();
+                            inputSupplierManageMenu(itemCategory, supIds, supNames, item);
+                            break;
+                        default:
+                            System.out.println("Invalid Number...Please try again!!!");
+                            clearWorkingConsole();
+                            mainMenuConsole();
+                            mainMenuInput(itemCategory, supIds, supNames, item);
+                    }
+                    continue L1;
+                }
+            }
+        }
     }
+
 
     // update supplier
     private static void updateSupplier(String[] itemCategory, String[] supId, String[] supName, String[][] item) {
@@ -966,44 +1036,50 @@ public class AppInitializer {
         System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t|");
         System.out.println("+-------------------------------------------------------------------------------------------+");
 
-        for (String s : supId) {
-            System.out.print("Supplier ID:");
-            String tempSupplierId = updateSupplier.next();
-            char yesNo;
+        boolean found = false;
 
-            if (!tempSupplierId.equals(s)) {
-                System.out.println("Can't find supplier Id. Try again..");
-                System.out.print("Supplier ID:");
-                updateSupplier.next();
-            }
+        System.out.print("Enter the Supplier ID to update: ");
+        String tempSupplierId = updateSupplier.next();
 
-            for (int j = 0; j < supId.length; j++) {
-                if (tempSupplierId.equals(supId[j])) {
-                    System.out.println("Supplier Name:" + supName[j]);
-                    System.out.println();
-                    System.out.print("Enter the new Supplier Name:");
-                    String tempSupplierName = updateSupplier.next();
-                    supName[j] = tempSupplierName;
-                    System.out.print("Updated Successfully! Do You want to update another supplier? [Y/N] >");
-                    yesNo = updateSupplier.next().charAt(0);
-                    switch (yesNo) {
-                        case 'y':
-                        case 'Y':
-                            clearWorkingConsole();
-                            updateSupplier(itemCategory, supId, supName, item);
-                        case 'n':
-                        case 'N':
-                            clearWorkingConsole();
-                            supplierManageMenuConsole();
-                            inputSupplierManageMenu(itemCategory, supId, supName, item);
-                            break;
-                        default:
-                            System.out.println("Invalid Value.. Try Again..!");
-                    }
-                }
+        for (int j = 0; j < supId.length; j++) {
+            if (tempSupplierId.equals(supId[j])) {
+                found = true;
+                System.out.println("Supplier Name: " + supName[j]);
+                System.out.print("Enter the new Supplier Name: ");
+                String tempSupplierName = updateSupplier.next();
+                supName[j] = tempSupplierName;
+                System.out.println("Updated Successfully!");
+                break;
             }
         }
+
+        if (!found) {
+            System.out.println("Can't find supplier ID. Try again..");
+            clearWorkingConsole();
+            updateSupplier(itemCategory, supId, supName, item);
+            return; // Exit the method to avoid further execution
+        }
+
+        System.out.print("Do you want to update another supplier? [Y/N] >");
+        char yesNo = updateSupplier.next().charAt(0);
+
+        switch (yesNo) {
+            case 'y':
+            case 'Y':
+                clearWorkingConsole();
+                updateSupplier(itemCategory, supId, supName, item);
+                break;
+            case 'n':
+            case 'N':
+                clearWorkingConsole();
+                supplierManageMenuConsole();
+                inputSupplierManageMenu(itemCategory, supId, supName, item);
+                break;
+            default:
+                System.out.println("Invalid Value.. Try Again..!");
+        }
     }
+
 
     // add supplier
     private static void addSupplier(String[] itemCategory, String[] supId, String[] supName, String[][] item) {
