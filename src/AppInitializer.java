@@ -893,69 +893,7 @@ public class AppInitializer {
     }
 
 
-    // delete supplier
-   /* private static void deleteSupplier(String[] itemCategory, String[] supIds, String[] supNames, String[][] item) {
-        Scanner deleteSupplier = new Scanner(System.in);
-        System.out.print("\n");
-        System.out.println("+-------------------------------------------------------------------------------------------+");
-        System.out.print("|");
-        System.out.print("\t\t\t\t\t\t\t\tDELETE SUPPLIER");
-        System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t|");
-        System.out.println("+-------------------------------------------------------------------------------------------+");
-
-        L1:
-        for (int i = 0; i < supIds.length; i++) {
-            System.out.print("Supplier ID:");
-            String tempSupplierId = deleteSupplier.next();
-
-            //check exists the id before deleting.
-            if (!tempSupplierId.equals(supIds[i])) {
-                System.out.println("Can't find supplier Id. Try again..");
-                System.out.print("Supplier ID:");
-                deleteSupplier.next();
-            }
-
-            for (int j = 0; j < supIds.length; j++) {
-                if (tempSupplierId.equals(supIds[j])) {
-                    for (int k = j; k < supIds.length - 1; k++) {
-                        supIds[k] = supIds[k + 1];
-                        supNames[k] = supNames[k + 1];
-                    }
-                    String[] tempSupId = new String[supIds.length - 1];
-                    String[] tempSupName = new String[supNames.length - 1];
-
-                    for (int l = 0; l < tempSupId.length; l++) {
-                        tempSupId[l] = supIds[l];
-                        tempSupName[l] = supNames[l];
-                    }
-                    supIds = tempSupId;
-                    supNames = tempSupName;
-                    System.out.print("Deleted Successfully. Do you want to delete another supplier? (Y/N) : ");
-                    char ch = deleteSupplier.next().charAt(0);
-                    switch (ch) {
-                        case 'y':
-                        case 'Y':
-                            clearWorkingConsole();
-                            deleteSupplier(itemCategory, supIds, supNames, item);
-                            break;
-                        case 'n':
-                        case 'N':
-                            clearWorkingConsole();
-                            supplierManageMenuConsole();
-                            inputSupplierManageMenu(itemCategory, supIds, supNames, item);
-                            break;
-                        default:
-                            System.out.println("Invalid Number...Please try again!!!");
-                            clearWorkingConsole();
-                            mainMenuConsole();
-                            mainMenuInput(itemCategory, supIds, supNames, item);
-                    }
-                    continue L1;
-                }
-            }
-        }
-    }*/
-
+    // delete supplie
     private static void deleteSupplier(String[] itemCategory, String[] supIds, String[] supNames, String[][] item) {
         Scanner deleteSupplier = new Scanner(System.in);
         System.out.print("\n");
