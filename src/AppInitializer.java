@@ -19,7 +19,7 @@ public class AppInitializer {
 
     public static String[][] items = new String[1000][7];
     public static int itemCount = 0;
-
+    public static int supplierCount = 0;
 
     // main method
     public static void main(String[] args) {
@@ -63,7 +63,6 @@ public class AppInitializer {
             }
         } while (!validCredentials);
     }
-
 
     // clearing console.
     private static void clearWorkingConsole() {
@@ -199,7 +198,7 @@ public class AppInitializer {
                 addItem(itemCategory, supIds, supNames, item);
                 break;
             case 3:
-                getItemsSupplierWise();
+                getItemsSupplierWise(itemCategory, supIds, supNames, item);
                 break;
             case 4:
                 viewItems();
@@ -217,10 +216,6 @@ public class AppInitializer {
                 stockManageMenuConsole(itemCategory, supIds, supNames, item);
                 break;
         }
-    }
-
-    private static void rankItemsPerUnitPrice() {
-
     }
 
     // navigating home page
@@ -247,12 +242,207 @@ public class AppInitializer {
         }
     }
 
-    // view items
-    private static void viewItems() {
+
+    // Ranking unit prices in the items
+    private static void rankItemsPerUnitPrice() {
+
     }
 
+    // view items
+    private static void viewItems() {
+        // Print items in tabular format grouped by category
+        String currentCategory = null;
+        for (int i = 0; i < itemCategories.length; i++) {
+            String category = itemCategories[i];
+            String[] item = items[i];
+
+            if (category != null && item != null) {
+                if (!category.equals(currentCategory)) {
+                    System.out.println(category + ":");
+                    System.out.println("SID\tCODE\tDESC\tPRICE\tQTY");
+                    currentCategory = category;
+                }
+
+                for (String field : item) {
+                    System.out.print(field + "\t");
+                }
+                System.out.println();
+            }
+        }
+    }
+
+    /*Scanner scanner = new Scanner(System.in);
+
+           String supplierId;
+           boolean validSupplierId = false;
+
+           while (!validSupplierId) {
+               System.out.print("Enter Supplier Id: ");
+               supplierId = scanner.nextLine();
+
+               for (int i = 0; i < supplierIds.length; i++) {
+                   if (supplierIds[i] != null && supplierIds[i].equals(supplierId)) {
+                       System.out.println("Supplier Name: " + supplierNames[i]);
+                       System.out.println("ITEM CODE\tDESCRIPTION\tUNIT PRICE\tQTY ON HAND\tCATEGORY");
+
+                       for (int j = 0; j < items.length; j++) {
+                           if (items[j][0] != null && items[j][0].equals(supplierId)) {
+                               System.out.println(items[j][1] + "\t\t" + items[j][2] + "\t\t" + items[j][3] + "\t\t" +
+                                       items[j][4] + "\t\t" + itemCategories[j]);
+                           }
+                       }
+
+                       validSupplierId = true;
+                       break;
+                   }
+               }
+
+               if (!validSupplierId) {
+                   System.out.println("Invalid supplier id. Please try again.");
+               }
+           }
+
+           System.out.print("Search successfully! Do you want to perform another search? (Y/N) ");
+           String anotherSearch = scanner.nextLine();
+
+           if (anotherSearch.equalsIgnoreCase("Y")) {
+               getItemsSupplierWise();
+           }*/
     // Get Items for supplier wise
-    private static void getItemsSupplierWise() {
+    /*private static void getItemsSupplierWise() {
+        System.out.println("+-------------------------------------------------------------------------------------------+");
+        System.out.println("|" + "\t\t\t\t\t\t\t\t\tGET ITEMS SUPPLIER WISE" +
+                "\t\t\t\t\t\t\t\t\t\t|");
+        System.out.println("+-------------------------------------------------------------------------------------------+");
+
+        Scanner scanner = new Scanner(System.in);
+
+        String supplierId;
+        boolean validSupplierId = false;
+
+        while (!validSupplierId) {
+            System.out.print("Enter Supplier Id: ");
+            supplierId = scanner.nextLine();
+
+            for (int i = 0; i < itemCount; i++) {
+                if (supplierIds[i] != null && supplierIds[i].equals(supplierId)) {
+                    System.out.println("Supplier Name: " + supplierNames[i]);
+                    System.out.println("ITEM CODE\tDESCRIPTION\tUNIT PRICE\tQTY ON HAND\tCATEGORY");
+
+                    for (int j = 0; j < itemCount; j++) {
+                        if (items[j][0] != null && items[j][0].equals(supplierId)) {
+                            System.out.println(items[j][1] + "\t\t" + items[j][2] + "\t\t" + items[j][3] + "\t\t" +
+                                    items[j][4] + "\t\t" + itemCategories[j]);
+                        }
+                    }
+
+                    validSupplierId = true;
+                    break;
+                }
+            }
+            if (!validSupplierId) {
+                System.out.println("Invalid supplier id. Please try again.");
+            }
+        }
+
+        System.out.print("Search successfully! Do you want to perform another search? (Y/N) ");
+        String anotherSearch = scanner.nextLine();
+
+        if (anotherSearch.equalsIgnoreCase("Y")) {
+            getItemsSupplierWise();
+        }
+    }*/
+    /*private static void getItemsSupplierWise() {
+        System.out.println("+-------------------------------------------------------------------------------------------+");
+        System.out.println("|" + "\t\t\t\t\t\t\t\t\tGET ITEMS SUPPLIER WISE" +
+                "\t\t\t\t\t\t\t\t\t\t|");
+        System.out.println("+-------------------------------------------------------------------------------------------+");
+
+        Scanner scanner = new Scanner(System.in);
+
+        String supplierId;
+        boolean validSupplierId = false;
+
+        while (!validSupplierId) {
+            System.out.print("Enter Supplier Id: ");
+            supplierId = scanner.nextLine();
+
+            boolean supplierFound = true;
+
+            for (int i = 0; i < itemCount; i++) {
+                if (items[i][0] != null && items[i][0].equals(supplierId)) {
+                    if (supplierFound!=true) {
+                        System.out.println("Supplier Name: " + getSupplierName(supplierId));
+                        System.out.println("ITEM CODE\tDESCRIPTION\tUNIT PRICE\tQTY ON HAND\tCATEGORY");
+                        supplierFound = true;
+                    }
+                    System.out.println(items[i][1] + "\t\t" + items[i][2] + "\t\t" + items[i][3] + "\t\t" +
+                            items[i][4] + "\t\t" + itemCategories[i]);
+                }
+            }
+
+            if (!supplierFound) {
+                System.out.println("Invalid supplier id. Please try again.");
+            } else {
+                validSupplierId = true;
+            }
+        }
+
+        System.out.print("Search successfully! Do you want to perform another search? (Y/N) ");
+        String anotherSearch = scanner.nextLine();
+
+        if (anotherSearch.equalsIgnoreCase("Y")) {
+            getItemsSupplierWise();
+        }
+    }*/
+    private static void getItemsSupplierWise(String[] itemCategory, String[] supIds, String[] supNames, String[][] item) {
+        System.out.println("+-------------------------------------------------------------------------------------------+");
+        System.out.println("|" + "\t\t\t\t\t\t\t\t\tGET ITEMS SUPPLIER WISE" +
+                "\t\t\t\t\t\t\t\t\t\t|");
+        System.out.println("+-------------------------------------------------------------------------------------------+");
+
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.print("Enter Supplier Id: ");
+            String supplierId = scanner.nextLine();
+            String supplierName = "";
+
+            // Find the supplier name based on the supplier ID
+            for (int i = 0; i < supIds.length; i++) {
+                if (supIds[i] != null && supIds[i].equals(supplierId)) {
+                    supplierName = supNames[i];
+                    break;
+                }
+            }
+
+            if (supplierName.isEmpty()) {
+                System.out.println("Invalid supplier id. Please try again.");
+                continue;
+            }
+
+            System.out.println("Supplier Name: " + supplierName);
+            System.out.println("\nITEM CODE\tDESCRIPTION\tUNIT PRICE\tQTY ON HAND\tCATEGORY");
+            boolean foundItems = false;
+
+            // Display items for the specified supplier
+            for (String[] items : items) {
+                /*System.out.println(Arrays.toString(items));*/
+                if (items[0] != null && items[1].equals(supplierId)) {
+                    System.out.println(items[0] + "\t\t" + items[4] + "\t\t" + items[5] + "\t\t" + items[6] + "\t\t" + items[3]);
+                    foundItems = true;
+                }
+            }
+
+            if (!foundItems) {
+                System.out.println("No items found for the specified supplier.");
+            }
+
+            System.out.print("\nSearch successfully! Do you want to perform another search? (Y/N): ");
+            String choice = scanner.nextLine();
+            if (!choice.equalsIgnoreCase("Y")) {
+                break;
+            }
+        }
     }
 
     // add items
@@ -262,7 +452,7 @@ public class AppInitializer {
         System.out.println("+-----------------------------------------------------------------------------------+");
         System.out.print("|");
         System.out.print(" \t\t\t\t\t\t\t\t ADD ITEM ");
-        System.out.println("\t\t\t\t\t\t\t\t\t    |");
+        System.out.println("\t\t\t\t\t\t\t\t\t\t    |");
         System.out.println("+-----------------------------------------------------------------------------------+");
 
         // Check if item categories exist
@@ -305,14 +495,24 @@ public class AppInitializer {
         System.out.print("Item Code: ");
         String itemCode = addItem.nextLine();
 
+        // Check if the item code already exists
+        for (int i = 0; i < itemCount; i++) {
+            if (item[i][0] != null && item[i][0].equals(itemCode)) {
+                System.out.println("Item with the same code already exists.");
+                System.out.print("Item Code: ");
+                itemCode = addItem.nextLine();
+            }
+        }
+
         // Display supplier details
         System.out.println("Suppliers list:");
-        System.out.println("+------------+---------------+--------------+");
-        System.out.println("|\t#\tSupplier ID | \tSupplier Name\t|");
-        System.out.println("+------------+---------------+--------------+");
+        System.out.println();
+        System.out.println("+----------------+---------------+--------------------------------+");
+        System.out.println("|\t\t #      |\t\tSUPPLIER ID       |\t\tSUPPLIER NAME        |");
+        System.out.println("+----------------+---------------+--------------------------------+");
         for (int i = 0; i < supIds.length; i++) {
             if (supIds[i] != null) {
-                System.out.println("|" + (i + 1) + "\t" + supIds[i] + "|" + "\t\t" + supNames[i] + "|");
+                System.out.println("|" + (i + 1) + "|" + "\t" + supIds[i] + "|" + "\t\t" + supNames[i] + "|");
             }
         }
 
@@ -356,7 +556,7 @@ public class AppInitializer {
         int quantityOnHand = addItem.nextInt();
         addItem.nextLine(); // Consume newline character
 
-        // Add item to the items array
+       /* // Add item to the items array
         item[itemCount][0] = itemCode;
         item[itemCount][1] = supIds[supplierNumber - 1];
         item[itemCount][2] = supNames[supplierNumber - 1];
@@ -365,6 +565,32 @@ public class AppInitializer {
         item[itemCount][5] = String.valueOf(unitPrice);
         item[itemCount][6] = String.valueOf(quantityOnHand);
         itemCount++;
+
+        System.out.println(Arrays.toString(new String[]{item[itemCount][0]}));
+        System.out.println(Arrays.toString(new String[]{item[itemCount][1]}));
+        System.out.println(Arrays.toString(new String[]{item[itemCount][2]}));
+        System.out.println(Arrays.toString(new String[]{item[itemCount][3]}));
+        System.out.println(Arrays.toString(new String[]{item[itemCount][4]}));
+        System.out.println(Arrays.toString(new String[]{item[itemCount][5]}));
+        System.out.println(Arrays.toString(new String[]{item[itemCount][6]}));*/
+
+        // Add item to the items array
+        item[itemCount][0] = itemCode;
+        item[itemCount][1] = supIds[supplierNumber - 1];
+        item[itemCount][2] = supNames[supplierNumber - 1];
+        item[itemCount][3] = itemCategory[categoryNumber - 1];
+        item[itemCount][4] = description;
+        item[itemCount][5] = String.valueOf(unitPrice);
+        item[itemCount][6] = String.valueOf(quantityOnHand);
+
+        System.out.println(Arrays.toString(new String[]{item[itemCount][0]}));
+        System.out.println(Arrays.toString(new String[]{item[itemCount][1]}));
+        System.out.println(Arrays.toString(new String[]{item[itemCount][2]}));
+        System.out.println(Arrays.toString(new String[]{item[itemCount][3]}));
+        System.out.println(Arrays.toString(new String[]{item[itemCount][4]}));
+        System.out.println(Arrays.toString(new String[]{item[itemCount][5]}));
+
+        itemCount++; // Increment itemCount after accessing the array
 
         System.out.print("Item added successfully! Do you want to add another Item? (Y/N) ");
         char addAnotherItem = addItem.next().charAt(0);
@@ -380,6 +606,7 @@ public class AppInitializer {
                 mainMenuInput(itemCategory, supIds, supNames, item);
         }
     }
+
 
     // manage item categories
     private static void manageItemCategories(String[] itemCategory, String[] supIds, String[] supNames, String[][] item) {
