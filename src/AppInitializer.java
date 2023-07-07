@@ -5,7 +5,8 @@ import java.util.Scanner;
 /**
  * coded by - eraboy
  * version - v1.0
- */
+ **/
+
 public class AppInitializer {
 
     // supplier arrays
@@ -244,9 +245,10 @@ public class AppInitializer {
         System.out.println("\t\t\t\t\t\t\t\t\t\t    |");
         System.out.println("+-----------------------------------------------------------------------------------+");
         System.out.println();
-        System.out.println("SID\tCODE\tDESC\tPRICE\tQTY\tCAT");
+        System.out.println("+--------------------+------------------+------------------+------------------+------------------+--------------------+");
+        System.out.println("|\t\tSID       |\t\tCODE      |\t\tDESC      |\t\tPRICE      |\t\tQTY      |\t\tCAT      |");
+        System.out.println("+--------------------+------------------+------------------+------------------+------------------+--------------------+");
 
-        // Print each valid item in ascending order of unit price
         for (String[] item : items) {
             if (isValidItem(item)) {
                 String sid = item[0];
@@ -256,9 +258,10 @@ public class AppInitializer {
                 String qty = item[4];
                 String cat = item[5];
 
-                System.out.println(sid + "\t" + code + "\t" + desc + "\t" + price + "\t" + qty + "\t" + cat);
+                System.out.printf("|\t\t\t %-25s|\t\t\t %-25s|\t\t\t %-25s|\t\t\t %-25s|\t\t\t %-25s|\t\t\t %-25s|\n", sid,code,desc,price,qty,cat);
             }
         }
+        System.out.println("+--------------------+------------------+------------------+------------------+------------------+--------------------+");
 
         System.out.println("Do you want to go to the stock manage page? (Y/N)");
         char addAnotherItem = rankItems.next().charAt(0);
@@ -286,7 +289,6 @@ public class AppInitializer {
                 return false;
             }
         }
-
         return true;
     }
 
@@ -313,11 +315,9 @@ public class AppInitializer {
                     System.out.println("+------------+---------------+-------------+--------------+-----------+");
                     currentCategory = category;
                 }
-
                 for (String field : item) {
-                    System.out.printf(field + "\t");
+                    System.out.printf(field + "\t\t");
                 }
-
                 System.out.println("+------------+---------------+-------------+--------------+-----------+");
                 System.out.println();
             }
@@ -364,19 +364,19 @@ public class AppInitializer {
 
             System.out.println("Supplier Name: " + supplierName);
             System.out.println();
-            System.out.println("+----------------+---------------+----------------+----------------+----------------+");
-            System.out.println("|\tITEM CODE|\tDESCRIPTION|\tUNIT PRICE\t|\tQTY ON HAND\t|\tCATEGORY\t|");
-            System.out.println("+----------------+---------------+----------------+----------------+----------------+");
+            System.out.println("+---------------------------+---------------------------+---------------------------+---------------------------+---------------------------+");
+            System.out.println("|\t\t\t\tITEM CODE    |\t\t\t\tDESCRIPTION     |\t\t\t\tUNIT PRICE     |\t\t\t\tQTY ON HAND    |\t\t\t\tCATEGORY    |");
+            System.out.println("+---------------------------+---------------------------+---------------------------+---------------------------+---------------------------+");
+
             boolean foundItems = false;
 
             for (String[] items : items) {
                 if (items[0] != null && items[1].equals(supplierId)) {
-                    System.out.printf("|\t" + items[0] + "\t\t" + items[4] + "\t\t" + items[5] + "\t\t" + items[6] + "\t\t" + items[3] + "\t|");
+                    System.out.printf("|\t\t\t %-25s|\t\t\t %-25s|\t\t\t %-25s|\t\t\t %-25s|\t\t\t %-25s|\n", items[0], items[4], items[5], items[6], items[3]);
                     foundItems = true;
                 }
             }
-
-            System.out.println("+----------------+---------------+----------------+----------------+----------------+");
+            System.out.println("+---------------------------+---------------------------+---------------------------+---------------------------+---------------------------+");
 
             if (!foundItems) {
                 System.out.println("No items found for the specified supplier.");
@@ -445,7 +445,6 @@ public class AppInitializer {
         System.out.print("Item Code: ");
         String itemCode = addItem.nextLine();
 
-        // Check if the item code already exists
         for (int i = 0; i < itemCount; i++) {
             if (item[i][0] != null && item[i][0].equals(itemCode)) {
                 System.out.println("Item with the same code already exists.");
@@ -456,14 +455,15 @@ public class AppInitializer {
 
         System.out.println("Suppliers list:");
         System.out.println();
-        System.out.println("+----------------+---------------+--------------------------------+");
-        System.out.println("|\t\t #      |\t\t SUPPLIER ID       |\t\t SUPPLIER NAME        |");
-        System.out.println("+----------------+---------------+--------------------------------+");
+        System.out.println("+------------------------------------+--------------------------------------+--------------------------------------+");
+        System.out.println("|\t\t\t\t #                |\t\t\t\t SUPPLIER ID               |\t\t\t SUPPLIER NAME              |");
+        System.out.println("+------------------------------------+--------------------------------------+--------------------------------------+");
         for (int i = 0; i < supIds.length; i++) {
             if (supIds[i] != null) {
-                System.out.println("|" + (i + 1) + "|" + "\t" + supIds[i] + "|" + "\t\t" + supNames[i] + "|");
+                System.out.printf("|\t\t\t\t %-22s|\t\t\t %-23s|\t\t\t\t %-24s|\n", (i + 1), supIds[i], supNames[i]);
             }
         }
+        System.out.println("+------------------------------------+--------------------------------------+--------------------------------------+");
 
         System.out.print("Enter the supplier number > ");
         int supplierNumber = addItem.nextInt();
@@ -475,12 +475,15 @@ public class AppInitializer {
         }
 
         System.out.println("Item Categories:");
-        System.out.println("#\tCategory Name");
+        System.out.println("+------------------------------------+--------------------------------------+");
+        System.out.println("|\t\t\t\t#         |\t\t\t\tITEM CATEGORY           |");
+        System.out.println("+------------------------------------+--------------------------------------+");
         for (int i = 0; i < itemCategory.length; i++) {
             if (itemCategory[i] != null) {
-                System.out.println((i + 1) + "\t" + itemCategory[i]);
+                System.out.printf("|\t\t\t %-25s|\t\t\t %-25s|\n", (i + 1), itemCategory[i]);
             }
         }
+        System.out.println("+------------------------------------+--------------------------------------+");
 
         System.out.print("Enter the category number > ");
         int categoryNumber = addItem.nextInt();
@@ -779,9 +782,8 @@ public class AppInitializer {
                 searchSupplier(itemCategory, supIds, supNames, item);
                 break;
             case 6:
-              /*  I didn 't create new method for navigating homepage.
+                /*I didn't create new method for navigating homepage.
                 because we created this method before in using stock manage.*/
-
                 homePage(itemCategory, supIds, supNames, item);
                 break;
             default:
@@ -864,11 +866,11 @@ public class AppInitializer {
 
         for (int i = 0; i < supIds.length; i++) {
             if (supIds[i] != null && supNames[i] != null) {
-                System.out.printf("|\t\t\t %-25s|\t\t\t %-25s|\n", supIds[i], supNames[i]);
+                System.out.printf("|\t\t\t\t  %-19s|\t\t\t\t  %-22s|\n", supIds[i], supNames[i]);
             }
         }
         char ch;
-        System.out.println("+------------------------------------+---------------------------------------");
+        System.out.println("+------------------------------------+--------------------------------------+");
         System.out.println();
         System.out.print("Do you want to go to the supplier management menu? (Y/N) : ");
         ch = viewSupplier.next().charAt(0);
@@ -1010,7 +1012,7 @@ public class AppInitializer {
         System.out.println("+-------------------------------------------------------------------------------------------+");
         System.out.print("|");
         System.out.print("\t\t\t\t\t\t\t\tADD SUPPLIER");
-        System.out.println("\t\t\t\t\t\t\t\t\t\t\t|");
+        System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t|");
         System.out.println("+-------------------------------------------------------------------------------------------+");
 
         int indexValues = nextIdValues(supId);
