@@ -7,9 +7,6 @@ import java.util.Scanner;
  * version - v1.0
  */
 public class AppInitializer {
-    /*Static Arrays*/
-    //user credential arrays
-    public static String[] passwords = new String[1000];
 
     // supplier arrays
     public static String[] supplierIds = new String[1000];
@@ -17,10 +14,11 @@ public class AppInitializer {
 
     // Item category Array
     public static String[] itemCategories = new String[1000];
-
     public static String[][] items = new String[1000][7];
     public static int itemCount = 0;
-    public static int supplierCount = 0;
+
+    //user credential arrays
+    public static String[] passwords = new String[1000];
 
     // main method
     public static void main(String[] args) {
@@ -221,28 +219,9 @@ public class AppInitializer {
 
     // navigating home page
     private static void homePage(String[] itemCategory, String[] supIds, String[] supNames, String[][] item) {
-        Scanner exitNum = new Scanner(System.in);
-        System.out.print("Did You want to go to the Home Page?[Y/N] >");
-        String yesNo = exitNum.next();
-        switch (yesNo) {
-            case "y":
-            case "Y":
-                clearWorkingConsole();
-                mainMenuConsole();
-                mainMenuInput(itemCategory, supIds, supNames, item);
-                break;
-            case "n":
-            case "N":
-                clearWorkingConsole();
-                System.exit(0);
-                break;
-            default:
-                System.out.println("Invalid Value.. Try Again..!");
-                homePage(itemCategory, supIds, supNames, item);
-                break;
-        }
+        mainMenuConsole();
+        mainMenuInput(itemCategory, supIds, supNames, item);
     }
-
 
     // Ranking unit prices in the items
     private static void rankItemsPerUnitPrice(String[] itemCategory, String[] supIds, String[] supNames, String[][] itemList) {
@@ -281,7 +260,6 @@ public class AppInitializer {
             }
         }
 
-        // Prompt for the stock manage page
         System.out.println("Do you want to go to the stock manage page? (Y/N)");
         char addAnotherItem = rankItems.next().charAt(0);
         switch (addAnotherItem) {
@@ -312,7 +290,6 @@ public class AppInitializer {
         return true;
     }
 
-
     // view items
     private static void viewItems(String[] itemCategory, String[] supIds, String[] supNames, String[][] itemList) {
         Scanner viewItems = new Scanner(System.in);
@@ -323,7 +300,6 @@ public class AppInitializer {
         System.out.println("\t\t\t\t\t\t\t\t\t\t    |");
         System.out.println("+-----------------------------------------------------------------------------------+");
 
-        // Print items in tabular format grouped by category
         String currentCategory = null;
         for (int i = 0; i < itemCategories.length; i++) {
             String category = itemCategories[i];
@@ -332,21 +308,22 @@ public class AppInitializer {
             if (category != null && item != null) {
                 if (!category.equals(currentCategory)) {
                     System.out.println(category + ":");
-                    System.out.println("SID\tCODE\tDESC\tPRICE\tQTY");
+                    System.out.println("+------------+---------------+-------------+-------------+------------+");
+                    System.out.println("|\t\tSID   |\t\tCODE   |\t\tDESC   |\t\tPRICE   |\t\tQTY   |");
+                    System.out.println("+------------+---------------+-------------+--------------+-----------+");
                     currentCategory = category;
                 }
 
                 for (String field : item) {
-                    System.out.print(field + "\t");
+                    System.out.printf(field + "\t");
                 }
+
+                System.out.println("+------------+---------------+-------------+--------------+-----------+");
                 System.out.println();
-            } else {
-                System.out.println("Not Found it!");
             }
         }
         System.out.print("Do You Want to go stock manage page? (Y/N)");
-        char addAnotherItem = viewItems.next().charAt(0);
-        switch (addAnotherItem) {
+        switch (viewItems.next().charAt(0)) {
             case 'Y':
             case 'y':
                 clearWorkingConsole();
@@ -373,7 +350,6 @@ public class AppInitializer {
             String supplierId = getItemsSupplierWise.nextLine();
             String supplierName = "";
 
-            // Find the supplier name based on the supplier ID
             for (int i = 0; i < supIds.length; i++) {
                 if (supIds[i] != null && supIds[i].equals(supplierId)) {
                     supplierName = supNames[i];
@@ -387,17 +363,20 @@ public class AppInitializer {
             }
 
             System.out.println("Supplier Name: " + supplierName);
-            System.out.println("\nITEM CODE\tDESCRIPTION\tUNIT PRICE\tQTY ON HAND\tCATEGORY");
+            System.out.println();
+            System.out.println("+----------------+---------------+----------------+----------------+----------------+");
+            System.out.println("|\tITEM CODE|\tDESCRIPTION|\tUNIT PRICE\t|\tQTY ON HAND\t|\tCATEGORY\t|");
+            System.out.println("+----------------+---------------+----------------+----------------+----------------+");
             boolean foundItems = false;
 
-            // Display items for the specified supplier
             for (String[] items : items) {
-                /*System.out.println(Arrays.toString(items));*/
                 if (items[0] != null && items[1].equals(supplierId)) {
-                    System.out.println(items[0] + "\t\t" + items[4] + "\t\t" + items[5] + "\t\t" + items[6] + "\t\t" + items[3]);
+                    System.out.printf("|\t" + items[0] + "\t\t" + items[4] + "\t\t" + items[5] + "\t\t" + items[6] + "\t\t" + items[3] + "\t|");
                     foundItems = true;
                 }
             }
+
+            System.out.println("+----------------+---------------+----------------+----------------+----------------+");
 
             if (!foundItems) {
                 System.out.println("No items found for the specified supplier.");
@@ -429,7 +408,6 @@ public class AppInitializer {
         System.out.println("\t\t\t\t\t\t\t\t\t\t    |");
         System.out.println("+-----------------------------------------------------------------------------------+");
 
-        // Check if item categories exist
         if (itemCategory[0] == null) {
             System.out.print("OOPS! It seems that you don't have any item categories in the system. " +
                     "Do you want to add a new item category? (Y/N) ");
@@ -447,7 +425,6 @@ public class AppInitializer {
             }
         }
 
-        // Check if suppliers exist
         if (supIds[0] == null) {
             System.out.print("OOPS! It seems that you don't have any suppliers in the system. " +
                     "Do you want to add a new supplier? (Y/N) ");
@@ -465,7 +442,6 @@ public class AppInitializer {
             }
         }
 
-        // Continue with adding items
         System.out.print("Item Code: ");
         String itemCode = addItem.nextLine();
 
@@ -478,11 +454,10 @@ public class AppInitializer {
             }
         }
 
-        // Display supplier details
         System.out.println("Suppliers list:");
         System.out.println();
         System.out.println("+----------------+---------------+--------------------------------+");
-        System.out.println("|\t\t #      |\t\tSUPPLIER ID       |\t\tSUPPLIER NAME        |");
+        System.out.println("|\t\t #      |\t\t SUPPLIER ID       |\t\t SUPPLIER NAME        |");
         System.out.println("+----------------+---------------+--------------------------------+");
         for (int i = 0; i < supIds.length; i++) {
             if (supIds[i] != null) {
@@ -494,13 +469,11 @@ public class AppInitializer {
         int supplierNumber = addItem.nextInt();
         addItem.nextLine();
 
-        // Check if the selected supplier exists
         if (supplierNumber < 1 || supplierNumber > supIds.length || supIds[supplierNumber - 1] == null) {
             System.out.println("Invalid supplier number.");
             return;
         }
 
-        // Get the item category name
         System.out.println("Item Categories:");
         System.out.println("#\tCategory Name");
         for (int i = 0; i < itemCategory.length; i++) {
@@ -513,13 +486,11 @@ public class AppInitializer {
         int categoryNumber = addItem.nextInt();
         addItem.nextLine();
 
-        // Check if the selected category exists
         if (categoryNumber < 1 || categoryNumber > itemCategory.length || itemCategory[categoryNumber - 1] == null) {
             System.out.println("Invalid category number.");
             return;
         }
 
-        // Add item details
         System.out.print("Description: ");
         String description = addItem.nextLine();
 
@@ -530,7 +501,6 @@ public class AppInitializer {
         int quantityOnHand = addItem.nextInt();
         addItem.nextLine();
 
-        // Add item to the items array
         item[itemCount][0] = itemCode;
         item[itemCount][1] = supIds[supplierNumber - 1];
         item[itemCount][2] = supNames[supplierNumber - 1];
@@ -538,15 +508,7 @@ public class AppInitializer {
         item[itemCount][4] = description;
         item[itemCount][5] = String.valueOf(unitPrice);
         item[itemCount][6] = String.valueOf(quantityOnHand);
-
-        System.out.println(Arrays.toString(new String[]{item[itemCount][0]}));
-        System.out.println(Arrays.toString(new String[]{item[itemCount][1]}));
-        System.out.println(Arrays.toString(new String[]{item[itemCount][2]}));
-        System.out.println(Arrays.toString(new String[]{item[itemCount][3]}));
-        System.out.println(Arrays.toString(new String[]{item[itemCount][4]}));
-        System.out.println(Arrays.toString(new String[]{item[itemCount][5]}));
-
-        itemCount++; // Increment itemCount after accessing the array
+        itemCount++;
 
         System.out.print("Item added successfully! Do you want to add another Item? (Y/N) ");
         char addAnotherItem = addItem.next().charAt(0);
@@ -562,7 +524,6 @@ public class AppInitializer {
                 mainMenuInput(itemCategory, supIds, supNames, item);
         }
     }
-
 
     // manage item categories
     private static void manageItemCategories(String[] itemCategory, String[] supIds, String[] supNames, String[][] item) {
@@ -627,7 +588,6 @@ public class AppInitializer {
         String categoryToUpdate = updateCategory.nextLine();
         int index = -1;
 
-        // Check if the category name exists before updating.
         for (int i = 0; i < itemCategory.length; i++) {
             if (categoryToUpdate.equalsIgnoreCase(itemCategory[i])) {
                 index = i;
@@ -669,7 +629,6 @@ public class AppInitializer {
                 break;
         }
     }
-
 
     // delete item category
     private static void deleteItemCategory(String[] itemCategory, String[] supIds, String[] supNames, String[][] item) {
@@ -797,7 +756,7 @@ public class AppInitializer {
         clearWorkingConsole();
     }
 
-    // user inputs in supplier manage menu
+    // inputs in supplier manage menu
     private static void inputSupplierManageMenu(String[] itemCategory, String[] supIds, String[] supNames, String[][] item) {
         Scanner inputNum = new Scanner(System.in);
         System.out.print("Enter an option to continue > ");
@@ -820,8 +779,9 @@ public class AppInitializer {
                 searchSupplier(itemCategory, supIds, supNames, item);
                 break;
             case 6:
-                /*I didn't create new method for navigating homepage.
+              /*  I didn 't create new method for navigating homepage.
                 because we created this method before in using stock manage.*/
+
                 homePage(itemCategory, supIds, supNames, item);
                 break;
             default:
@@ -833,7 +793,6 @@ public class AppInitializer {
         }
     }
 
-    /*Crud Operations of Supplier Array*/
     //Search supplier
     private static void searchSupplier(String[] itemCategory, String[] supIds, String[] supNames, String[][] item) {
         Scanner searchSupplier = new Scanner(System.in);
@@ -844,10 +803,8 @@ public class AppInitializer {
         System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t|");
         System.out.println("+-------------------------------------------------------------------------------------------+");
 
-        // validating supplier id for using boolean variable
         boolean validSupplierId = false;
 
-        // main loop
         while (!validSupplierId) {
             System.out.print("Supplier ID: ");
             String tempSupplierId = searchSupplier.next();
@@ -944,7 +901,6 @@ public class AppInitializer {
         System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t|");
         System.out.println("+-------------------------------------------------------------------------------------------+");
 
-        // main loop
         L1:
         for (int i = 0; i < supIds.length; i++) {
             System.out.print("Supplier ID:");
@@ -957,7 +913,6 @@ public class AppInitializer {
                 deleteSupplier.next();
             }
 
-            // inside loop
             for (int j = 0; j < supIds.length; j++) {
                 if (tempSupplierId.equals(supIds[j])) {
                     for (int k = j; k < supIds.length - 1; k++) {
@@ -1009,20 +964,17 @@ public class AppInitializer {
         System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t|");
         System.out.println("+-------------------------------------------------------------------------------------------+");
 
-        //main loop
         for (String s : supId) {
             System.out.print("Supplier ID:");
             String tempSupplierId = updateSupplier.next();
             char yesNo;
 
-            //check exists the id before updating.
             if (!tempSupplierId.equals(s)) {
                 System.out.println("Can't find supplier Id. Try again..");
                 System.out.print("Supplier ID:");
                 updateSupplier.next();
             }
 
-            // validating the id for updating.
             for (int j = 0; j < supId.length; j++) {
                 if (tempSupplierId.equals(supId[j])) {
                     System.out.println("Supplier Name:" + supName[j]);
