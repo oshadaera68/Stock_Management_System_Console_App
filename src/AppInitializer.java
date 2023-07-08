@@ -15,6 +15,8 @@ public class AppInitializer {
 
     // Item category Array
     public static String[] itemCategories = new String[1000];
+
+    //item array
     public static String[][] items = new String[1000][7];
     public static int itemCount = 0;
 
@@ -43,6 +45,7 @@ public class AppInitializer {
 
             if (!userName.equals("eraboy")) {
                 System.out.println("Invalid User name. Try again!");
+                System.out.println();
             } else {
                 validCredentials = true;
             }
@@ -60,6 +63,7 @@ public class AppInitializer {
                 mainMenuInput(itemCategory, supIds, supNames, item);
             } else {
                 System.out.println("Invalid Password. Try again!");
+                System.out.println();
             }
         } while (!validCredentials);
     }
@@ -115,7 +119,7 @@ public class AppInitializer {
                 stockManageMenuConsole(itemCategory, supIds, supNames, item);
                 break;
             case 4:
-                logOut(true, itemCategory, supIds, supNames, item);
+                logOut(itemCategory, supIds, supNames, item);
                 break;
             case 5:
                 exitTheSystem(itemCategory, supIds, supNames, item);
@@ -156,12 +160,9 @@ public class AppInitializer {
     }
 
     // log out in the system
-    private static boolean logOut(boolean isLogOut, String[] itemCategory, String[] supIds, String[] supNames, String[][] item) {
-        if (isLogOut) {
-            logInConsole(itemCategory, supIds, supNames, item);
-            mainMenuInput(itemCategory, supIds, supNames, item);
-        }
-        return false;
+    private static void logOut(String[] itemCategory, String[] supIds, String[] supNames, String[][] item) {
+        logInConsole(itemCategory, supIds, supNames, item);
+        mainMenuInput(itemCategory, supIds, supNames, item);
     }
 
     //stock manage menu
@@ -227,8 +228,7 @@ public class AppInitializer {
     // Ranking unit prices in the items
     private static void rankItemsPerUnitPrice(String[] itemCategory, String[] supIds, String[] supNames, String[][] itemList) {
         Scanner rankItems = new Scanner(System.in);
-        // Sort the items array based on the unit price (column index 3)
-        Arrays.sort(items, Comparator.comparingDouble(arr -> {
+        Arrays.sort(itemList, Comparator.comparingDouble(arr -> {
             try {
                 String price = arr[3];
                 return price != null ? Double.parseDouble(price) : Double.MAX_VALUE;
@@ -237,33 +237,28 @@ public class AppInitializer {
             }
         }));
 
-        // Print the header
-        System.out.print("\n");
-        System.out.println("+-----------------------------------------------------------------------------------+");
-        System.out.print("|");
-        System.out.print(" \t\t\t\t\t\t\t\t RANKED UNIT PRICE");
-        System.out.println("\t\t\t\t\t\t\t\t\t\t    |");
-        System.out.println("+-----------------------------------------------------------------------------------+");
-        System.out.println();
+        System.out.println("+------------------------------------------------------------------------------------+");
+        System.out.println("|                              RANK ITEMS PER UNIT PRICE                             |");
+        System.out.println("+------------------------------------------------------------------------------------+");
         System.out.println("+--------------------+------------------+------------------+------------------+------------------+--------------------+");
-        System.out.println("|\t\tSID       |\t\tCODE      |\t\tDESC      |\t\tPRICE      |\t\tQTY      |\t\tCAT      |");
+        System.out.println("|\t\t SID         |\t\t CODE       |\t\t DESC      |\t  PRICE       |\t\t QTY         |\t\t CAT          |");
         System.out.println("+--------------------+------------------+------------------+------------------+------------------+--------------------+");
 
-        for (String[] item : items) {
+        for (String[] item : itemList) {
             if (isValidItem(item)) {
                 String sid = item[0];
                 String code = item[1];
                 String desc = item[2];
                 String price = item[3];
                 String qty = item[4];
-                String cat = item[5];
+                String cat = item[6];
 
                 System.out.printf("|\t\t\t %-25s|\t\t\t %-25s|\t\t\t %-25s|\t\t\t %-25s|\t\t\t %-25s|\t\t\t %-25s|\n", sid, code, desc, price, qty, cat);
             }
         }
         System.out.println("+--------------------+------------------+------------------+------------------+------------------+--------------------+");
 
-        System.out.println("Do you want to go to the stock manage page? (Y/N)");
+        System.out.print("Do you want to go to the stock manage page? (Y/N)");
         char addAnotherItem = rankItems.next().charAt(0);
         switch (addAnotherItem) {
             case 'Y':
@@ -280,26 +275,15 @@ public class AppInitializer {
     }
 
     private static boolean isValidItem(String[] item) {
-        if (item == null || item.length != 6) {
-            return false;
-        }
-
-        for (String value : item) {
-            if (value == null) {
-                return false;
-            }
-        }
-        return true;
+        return item.length >= 7 && item[6] != null;
     }
 
     // view items
-    private static void viewItems(String[] itemCategory, String[] supIds, String[] supNames, String[][] itemList) {
+    private static void viewItems(String[] itemCategories, String[] supIds, String[] supNames, String[][] items) {
         Scanner viewItems = new Scanner(System.in);
-        System.out.print("\n");
+        System.out.println();
         System.out.println("+-----------------------------------------------------------------------------------+");
-        System.out.print("|");
-        System.out.print(" \t\t\t\t\t\t\t\t VIEW ITEMS");
-        System.out.println("\t\t\t\t\t\t\t\t\t\t    |");
+        System.out.println("|                                 VIEW ITEMS                                        |");
         System.out.println("+-----------------------------------------------------------------------------------+");
 
         String currentCategory = null;
@@ -311,29 +295,31 @@ public class AppInitializer {
                 if (!category.equals(currentCategory)) {
                     System.out.println(category + ":");
                     System.out.println("+------------+---------------+-------------+-------------+------------+");
-                    System.out.println("|\t\tSID   |\t\tCODE   |\t\tDESC   |\t\tPRICE   |\t\tQTY   |");
-                    System.out.println("+------------+---------------+-------------+--------------+-----------+");
+                    System.out.print("|    SID     |     CODE      |     DESC    |    PRICE    |    QTY     |\n");
+                    System.out.println("+------------+---------------+-------------+-------------+------------+");
                     currentCategory = category;
                 }
-                for (String field : item) {
-                    System.out.printf(field + "\t\t");
+                if (item.length >= 5) {
+                    System.out.printf("|  %-10s |  %-12s |  %-10s |  %-10s |  %-8s |\n", item[0], item[1], item[2], item[3], item[4]);
                 }
-                System.out.println("+------------+---------------+-------------+--------------+-----------+");
-                System.out.println();
             }
         }
-        System.out.print("Do You Want to go stock manage page? (Y/N)");
+        System.out.println("+------------+---------------+-------------+-------------+------------+");
+        System.out.println();
+        System.out.print("Do you want to go to the stock management page? (Y/N): ");
         switch (viewItems.next().charAt(0)) {
             case 'Y':
             case 'y':
                 clearWorkingConsole();
-                stockManageMenuConsole(itemCategory, supIds, supNames, itemList);
-                inputStockManageMenu(itemCategory, supIds, supNames, itemList);
+                stockManageMenuConsole(itemCategories, supIds, supNames, items);
+                inputStockManageMenu(itemCategories, supIds, supNames, items);
+                break;
             case 'N':
             case 'n':
                 clearWorkingConsole();
                 mainMenuConsole();
-                mainMenuInput(itemCategory, supIds, supNames, itemList);
+                mainMenuInput(itemCategories, supIds, supNames, items);
+                break;
         }
     }
 
@@ -341,7 +327,7 @@ public class AppInitializer {
     private static void getItemsSupplierWise(String[] itemCategory, String[] supIds, String[] supNames, String[][] item) {
         System.out.println("+-------------------------------------------------------------------------------------------+");
         System.out.println("|" + "\t\t\t\t\t\t\t\t\tGET ITEMS SUPPLIER WISE" +
-                "\t\t\t\t\t\t\t\t\t\t|");
+                "\t\t\t\t\t\t\t\t\t|");
         System.out.println("+-------------------------------------------------------------------------------------------+");
 
         Scanner getItemsSupplierWise = new Scanner(System.in);
@@ -365,14 +351,14 @@ public class AppInitializer {
             System.out.println("Supplier Name: " + supplierName);
             System.out.println();
             System.out.println("+---------------------------+---------------------------+---------------------------+---------------------------+---------------------------+");
-            System.out.println("|\t\t\t\tITEM CODE    |\t\t\t\tDESCRIPTION     |\t\t\t\tUNIT PRICE     |\t\t\t\tQTY ON HAND    |\t\t\t\tCATEGORY    |");
+            System.out.println("|          ITEM CODE        |        DESCRIPTION        |         UNIT PRICE        |        QTY ON HAND        |         CATEGORY          |");
             System.out.println("+---------------------------+---------------------------+---------------------------+---------------------------+---------------------------+");
 
             boolean foundItems = false;
 
-            for (String[] items : items) {
+            for (String[] items : item) {
                 if (items[0] != null && items[1].equals(supplierId)) {
-                    System.out.printf("|\t\t\t %-25s|\t\t\t %-25s|\t\t\t %-25s|\t\t\t %-25s|\t\t\t %-25s|\n", items[0], items[4], items[5], items[6], items[3]);
+                    System.out.printf("|\t   %-21s|\t   %-21s|\t   %-21s|\t   %-21s|\t   %-21s|\n", items[0], items[2], items[4], items[3], itemCategory[0]);
                     foundItems = true;
                 }
             }
@@ -389,11 +375,13 @@ public class AppInitializer {
                 case 'y':
                     clearWorkingConsole();
                     getItemsSupplierWise(itemCategory, supIds, supNames, item);
+                    break;
                 case 'N':
                 case 'n':
                     clearWorkingConsole();
                     mainMenuConsole();
                     mainMenuInput(itemCategory, supIds, supNames, item);
+                    break;
             }
         }
     }
@@ -401,7 +389,6 @@ public class AppInitializer {
     // add items
     private static void addItem(String[] itemCategory, String[] supIds, String[] supNames, String[][] item) {
         Scanner addItem = new Scanner(System.in);
-        System.out.print("\n");
         System.out.println("+-----------------------------------------------------------------------------------+");
         System.out.print("|");
         System.out.print(" \t\t\t\t\t\t\t\t ADD ITEM ");
@@ -417,11 +404,13 @@ public class AppInitializer {
                 case 'y':
                     clearWorkingConsole();
                     addNewItemCategory(itemCategory, supIds, supNames, item);
+                    break;
                 case 'N':
                 case 'n':
                     clearWorkingConsole();
                     mainMenuConsole();
                     mainMenuInput(itemCategory, supIds, supNames, item);
+                    break;
             }
         }
 
@@ -434,11 +423,13 @@ public class AppInitializer {
                 case 'y':
                     clearWorkingConsole();
                     addSupplier(itemCategory, supIds, supNames, item);
+                    break;
                 case 'N':
                 case 'n':
                     clearWorkingConsole();
                     mainMenuConsole();
                     mainMenuInput(itemCategory, supIds, supNames, item);
+                    break;
             }
         }
 
@@ -456,11 +447,13 @@ public class AppInitializer {
         System.out.println("Suppliers list:");
         System.out.println();
         System.out.println("+------------------------------------+--------------------------------------+--------------------------------------+");
-        System.out.println("|\t\t\t\t #                |\t\t\t\t SUPPLIER ID               |\t\t\t SUPPLIER NAME              |");
+        System.out.println("|              #                     |              SUPPLIER ID             |            SUPPLIER NAME             |");
         System.out.println("+------------------------------------+--------------------------------------+--------------------------------------+");
+        int displayedSupplierNumber = 1;
         for (int i = 0; i < supIds.length; i++) {
             if (supIds[i] != null) {
-                System.out.printf("|\t\t\t\t %-22s|\t\t\t %-23s|\t\t\t\t %-24s|\n", (i + 1), supIds[i], supNames[i]);
+                System.out.printf("|         %-27s|         %-29s|         %-29s|\n", displayedSupplierNumber, supIds[i], supNames[i]);
+                displayedSupplierNumber++;
             }
         }
         System.out.println("+------------------------------------+--------------------------------------+--------------------------------------+");
@@ -476,11 +469,11 @@ public class AppInitializer {
 
         System.out.println("Item Categories:");
         System.out.println("+------------------------------------+--------------------------------------+");
-        System.out.println("|\t\t\t\t#         |\t\t\t\tITEM CATEGORY           |");
+        System.out.println("|               #                    |           ITEM CATEGORY              |");
         System.out.println("+------------------------------------+--------------------------------------+");
         for (int i = 0; i < itemCategory.length; i++) {
             if (itemCategory[i] != null) {
-                System.out.printf("|\t\t\t %-25s|\t\t\t %-25s|\n", (i + 1), itemCategory[i]);
+                System.out.printf("|         %-27s|         %-29s|\n", (i + 1), itemCategory[i]);
             }
         }
         System.out.println("+------------------------------------+--------------------------------------+");
@@ -520,13 +513,16 @@ public class AppInitializer {
             case 'y':
                 clearWorkingConsole();
                 addItem(itemCategory, supIds, supNames, item);
+                break;
             case 'N':
             case 'n':
                 clearWorkingConsole();
                 mainMenuConsole();
                 mainMenuInput(itemCategory, supIds, supNames, item);
+                break;
         }
     }
+
 
     // manage item categories
     private static void manageItemCategories(String[] itemCategory, String[] supIds, String[] supNames, String[][] item) {
@@ -583,8 +579,8 @@ public class AppInitializer {
         Scanner updateCategory = new Scanner(System.in);
         System.out.println("+-------------------------------------------------------------------------------------------+");
         System.out.println("|");
-        System.out.println("\t\t\t\t\t\t\t\tUPDATE ITEM CATEGORY");
-        System.out.println("\t\t\t\t\t\t\t\t\t\t\t|");
+        System.out.println("\t\t\t\t\t\tUPDATE ITEM CATEGORY");
+        System.out.println("\t\t\t\t\t\t\t|");
         System.out.println("+-------------------------------------------------------------------------------------------+");
 
         System.out.print("Enter the Item Category Name to update: ");
@@ -709,7 +705,7 @@ public class AppInitializer {
             if (!categoryExists) {
                 itemCategories[index] = newCategory;
                 System.out.print("Added successfully! Do you want to add another item category? [Y/N] > ");
-                char choice = addCategory.nextLine().charAt(0);
+                char choice = addCategory.nextLine().charAt(0); //yes --> not typed, we use single word y or n
                 switch (choice) {
                     case 'y':
                     case 'Y':
