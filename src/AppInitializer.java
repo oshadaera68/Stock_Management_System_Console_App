@@ -274,6 +274,7 @@ public class AppInitializer {
         }
     }
 
+    // validation of valid item
     private static boolean isValidItem(String[] item) {
         return item.length >= 7 && item[6] != null;
     }
