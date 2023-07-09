@@ -902,7 +902,7 @@ public class AppInitializer {
         }
     }
 
-    // delete supplie
+    // delete supplier
     private static void deleteSupplier(String[] itemCategory, String[] supIds, String[] supNames, String[][] item) {
         Scanner deleteSupplier = new Scanner(System.in);
         System.out.print("\n");
