@@ -300,7 +300,7 @@ public class AppInitializer {
                     currentCategory = category;
                 }
                 if (item.length >= 5) {
-                    System.out.printf("|  %-10s |  %-12s |  %-10s |  %-10s |  %-8s |\n", item[0], item[1], item[2], item[3], item[4]);
+                    System.out.printf("|  %-9s |  %-12s |  %-10s |  %-10s |  %-9s |\n", item[1], item[0], item[4], item[5], item[6]);
                 }
             }
         }
@@ -358,7 +358,7 @@ public class AppInitializer {
 
             for (String[] items : item) {
                 if (items[0] != null && items[1].equals(supplierId)) {
-                    System.out.printf("|\t   %-21s|\t   %-21s|\t   %-21s|\t   %-21s|\t   %-21s|\n", items[0], items[2], items[4], items[3], itemCategory[0]);
+                    System.out.printf("|\t   %-21s|\t   %-21s|\t   %-21s|\t   %-21s|\t   %-21s|\n", items[0], items[4], items[5], items[6], itemCategory[0]);
                     foundItems = true;
                 }
             }
@@ -523,7 +523,6 @@ public class AppInitializer {
         }
     }
 
-
     // manage item categories
     private static void manageItemCategories(String[] itemCategory, String[] supIds, String[] supNames, String[][] item) {
         System.out.print("\n");
@@ -578,9 +577,9 @@ public class AppInitializer {
     private static void updateItemCategory(String[] itemCategory, String[] supIds, String[] supNames, String[][] item) {
         Scanner updateCategory = new Scanner(System.in);
         System.out.println("+-------------------------------------------------------------------------------------------+");
-        System.out.println("|");
-        System.out.println("\t\t\t\t\t\tUPDATE ITEM CATEGORY");
-        System.out.println("\t\t\t\t\t\t\t|");
+        System.out.print("|");
+        System.out.print("\t\t\t\t\t\t\t\t\t UPDATE ITEM CATEGORY");
+        System.out.println("\t\t\t\t\t\t\t\t\t|");
         System.out.println("+-------------------------------------------------------------------------------------------+");
 
         System.out.print("Enter the Item Category Name to update: ");
@@ -696,8 +695,23 @@ public class AppInitializer {
             boolean categoryExists = false;
             for (String category : itemCategories) {
                 if (newCategory.equalsIgnoreCase(category)) {
-                    System.out.println("Category already exists. Try another item category!");
-                    categoryExists = true;
+                    System.out.print("Category already exists. Do you still want to add it? [Y/N] > ");
+                    char choice = addCategory.nextLine().charAt(0);
+                    switch (choice) {
+                        case 'y':
+                        case 'Y':
+                            clearWorkingConsole();
+                            addNewItemCategory(itemCategory, supIds, supNames, item);
+                            break;
+                        case 'n':
+                        case 'N':
+                            categoryExists = true;
+                            break;
+                        default:
+                            System.out.println("Invalid value. Try again!");
+                            categoryExists = true;
+                            break;
+                    }
                     break;
                 }
             }
@@ -705,7 +719,7 @@ public class AppInitializer {
             if (!categoryExists) {
                 itemCategories[index] = newCategory;
                 System.out.print("Added successfully! Do you want to add another item category? [Y/N] > ");
-                char choice = addCategory.nextLine().charAt(0); //yes --> not typed, we use single word y or n
+                char choice = addCategory.nextLine().charAt(0);
                 switch (choice) {
                     case 'y':
                     case 'Y':
@@ -888,7 +902,6 @@ public class AppInitializer {
         }
     }
 
-
     // delete supplie
     private static void deleteSupplier(String[] itemCategory, String[] supIds, String[] supNames, String[][] item) {
         Scanner deleteSupplier = new Scanner(System.in);
@@ -959,7 +972,6 @@ public class AppInitializer {
         }
     }
 
-
     // update supplier
     private static void updateSupplier(String[] itemCategory, String[] supId, String[] supName, String[][] item) {
         Scanner updateSupplier = new Scanner(System.in);
@@ -1013,7 +1025,6 @@ public class AppInitializer {
                 System.out.println("Invalid Value.. Try Again..!");
         }
     }
-
 
     // add supplier
     private static void addSupplier(String[] itemCategory, String[] supId, String[] supName, String[][] item) {
