@@ -211,7 +211,7 @@ public class AppInitializer {
                 homePage(itemCategory, supIds, supNames, item);
                 break;
             default:
-                System.out.println("Invalid Number...Please try again!!!");
+                System.out.println("Invalid value...Please try again!!!");
                 clearWorkingConsole();
                 inputStockManageMenu(itemCategory, supIds, supNames, item);
                 stockManageMenuConsole(itemCategory, supIds, supNames, item);
@@ -266,11 +266,19 @@ public class AppInitializer {
                 clearWorkingConsole();
                 stockManageMenuConsole(itemCategory, supIds, supNames, itemList);
                 inputStockManageMenu(itemCategory, supIds, supNames, itemList);
+                break;
             case 'N':
             case 'n':
                 clearWorkingConsole();
                 mainMenuConsole();
                 mainMenuInput(itemCategory, supIds, supNames, itemList);
+                break;
+            default:
+                System.out.println("Invalid value...Please try again!!!");
+                clearWorkingConsole();
+                inputStockManageMenu(itemCategory, supIds, supNames, itemList);
+                stockManageMenuConsole(itemCategory, supIds, supNames, itemList);
+                break;
         }
     }
 
@@ -320,6 +328,12 @@ public class AppInitializer {
                 clearWorkingConsole();
                 mainMenuConsole();
                 mainMenuInput(itemCategories, supIds, supNames, items);
+                break;
+            default:
+                System.out.println("Invalid value...Please try again!!!");
+                clearWorkingConsole();
+                inputStockManageMenu(itemCategories, supIds, supNames, items);
+                stockManageMenuConsole(itemCategories, supIds, supNames, items);
                 break;
         }
     }
@@ -383,6 +397,12 @@ public class AppInitializer {
                     mainMenuConsole();
                     mainMenuInput(itemCategory, supIds, supNames, item);
                     break;
+                default:
+                    System.out.println("Invalid value...Please try again!!!");
+                    clearWorkingConsole();
+                    inputStockManageMenu(itemCategory, supIds, supNames, item);
+                    stockManageMenuConsole(itemCategory, supIds, supNames, item);
+                    break;
             }
         }
     }
@@ -412,6 +432,12 @@ public class AppInitializer {
                     mainMenuConsole();
                     mainMenuInput(itemCategory, supIds, supNames, item);
                     break;
+                default:
+                    System.out.println("Invalid value...Please try again!!!");
+                    clearWorkingConsole();
+                    inputStockManageMenu(itemCategory, supIds, supNames, item);
+                    stockManageMenuConsole(itemCategory, supIds, supNames, item);
+                    break;
             }
         }
 
@@ -430,6 +456,12 @@ public class AppInitializer {
                     clearWorkingConsole();
                     mainMenuConsole();
                     mainMenuInput(itemCategory, supIds, supNames, item);
+                    break;
+                default:
+                    System.out.println("Invalid value...Please try again!!!");
+                    clearWorkingConsole();
+                    inputStockManageMenu(itemCategory, supIds, supNames, item);
+                    stockManageMenuConsole(itemCategory, supIds, supNames, item);
                     break;
             }
         }
@@ -520,6 +552,12 @@ public class AppInitializer {
                 clearWorkingConsole();
                 mainMenuConsole();
                 mainMenuInput(itemCategory, supIds, supNames, item);
+                break;
+            default:
+                System.out.println("Invalid value...Please try again!!!");
+                clearWorkingConsole();
+                inputStockManageMenu(itemCategory, supIds, supNames, item);
+                stockManageMenuConsole(itemCategory, supIds, supNames, item);
                 break;
         }
     }
@@ -709,8 +747,10 @@ public class AppInitializer {
                             categoryExists = true;
                             break;
                         default:
-                            System.out.println("Invalid value. Try again!");
-                            categoryExists = true;
+                            System.out.println("Invalid value...Please try again!!!");
+                            clearWorkingConsole();
+                            inputStockManageMenu(itemCategory, supIds, supNames, item);
+                            stockManageMenuConsole(itemCategory, supIds, supNames, item);
                             break;
                     }
                     break;
@@ -898,8 +938,11 @@ public class AppInitializer {
                 mainMenuConsole();
                 mainMenuInput(itemCategory, supIds, supNames, item);
             default:
-                System.out.println("Invalid option. Please try again..");
-                System.exit(0);
+                System.out.println("Invalid value...Please try again!!!");
+                clearWorkingConsole();
+                inputStockManageMenu(itemCategory, supIds, supNames, item);
+                stockManageMenuConsole(itemCategory, supIds, supNames, item);
+                break;
         }
     }
 
@@ -962,7 +1005,7 @@ public class AppInitializer {
                             inputSupplierManageMenu(itemCategory, supIds, supNames, item);
                             break;
                         default:
-                            System.out.println("Invalid Number...Please try again!!!");
+                            System.out.println("Invalid value...Please try again!!!");
                             clearWorkingConsole();
                             mainMenuConsole();
                             mainMenuInput(itemCategory, supIds, supNames, item);
@@ -1004,7 +1047,7 @@ public class AppInitializer {
             System.out.println("Can't find supplier ID. Try again..");
             clearWorkingConsole();
             updateSupplier(itemCategory, supId, supName, item);
-            return; // Exit the method to avoid further execution
+            return;
         }
 
         System.out.print("Do you want to update another supplier? [Y/N] >");
@@ -1023,7 +1066,11 @@ public class AppInitializer {
                 inputSupplierManageMenu(itemCategory, supId, supName, item);
                 break;
             default:
-                System.out.println("Invalid Value.. Try Again..!");
+                System.out.println("Invalid value...Please try again!!!");
+                clearWorkingConsole();
+                inputStockManageMenu(itemCategory, supId, supName, item);
+                stockManageMenuConsole(itemCategory, supId, supName, item);
+                break;
         }
     }
 
@@ -1069,7 +1116,11 @@ public class AppInitializer {
                         inputSupplierManageMenu(itemCategory, supId, supName, item);
                         break;
                     default:
-                        System.out.println("Invalid Value.. Try Again..!");
+                        System.out.println("Invalid value...Please try again!!!");
+                        clearWorkingConsole();
+                        inputStockManageMenu(itemCategory, supId, supName, item);
+                        stockManageMenuConsole(itemCategory, supId, supName, item);
+                        break;
                 }
             }
         }
@@ -1138,7 +1189,10 @@ public class AppInitializer {
                             System.exit(0);
                             break;
                         default:
-                            System.out.println("Invalid Value. Try Again!");
+                            System.out.println("Invalid value...Please try again!!!");
+                            clearWorkingConsole();
+                            inputStockManageMenu(itemCategory, supIds, supNames, item);
+                            stockManageMenuConsole(itemCategory, supIds, supNames, item);
                             break;
                     }
                 } else {
